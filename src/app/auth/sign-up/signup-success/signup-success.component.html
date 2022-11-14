@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="content">
+    <div class="info">
+      
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2250/2250206.png"
+        alt=""
+      />
+      <p>Great! You've successfully signed up</p>
+      <p>
+        We've sent an a link to <span>{{ email }}</span
+        >. Please check your inbox. It can take some time to show up in your
+        inbox
+      </p>
+    </div>
+
+    <div class="help">
+      <p>Didn't get the email?</p>
+      <ol>
+        <li>
+          Is {{ email }} your correct email? If not, you can
+          <span (click)="emitSignUpRestart()">restart the sign up process</span>
+        </li>
+        <li>Check your spam folder</li>
+        <li>
+          Click <span (click)="emitResendEmail()">here</span> to resend the
+          email
+          <mat-progress-spinner
+            *ngIf="isLoading"
+            mode="indeterminate"
+            diameter="20"
+            style="display: inline; margin-left: 5px"
+          ></mat-progress-spinner>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <a routerLink="/auth/login">I have confirmed my email. Take me to login</a>
+</div>

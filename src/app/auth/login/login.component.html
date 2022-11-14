@@ -1,0 +1,67 @@
+<div class="container">
+  <mat-card class="background-card">
+    <form [formGroup]="authForm" (ngSubmit)="handleSubmit()" #form="ngForm">
+      <div class="form-group">
+        <h2>Log in</h2>
+
+        <a routerLink="/auth/signup"> Need an account? </a>
+
+        <div *ngIf="error" class="form-error">
+          {{ error }}
+        </div>
+
+        <input
+          type="text"
+          class="form-control"
+          id="login"
+          name="login"
+          required
+          formControlName="login"
+          placeholder="Login"
+        />
+
+        <span
+          class="form-error"
+          *ngIf="
+            !authForm.controls['login'].value.length &&
+            (authForm.controls['login'].touched || form.submitted)
+          "
+        >
+          Enter your login
+        </span>
+
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          required
+          formControlName="password"
+          placeholder="Password"
+        />
+
+        <span
+          class="form-error"
+          *ngIf="
+            (authForm.controls['password'].dirty ||
+              authForm.controls['password'].touched ||
+              form.submitted) &&
+            authForm.controls['password'].invalid
+          "
+        >
+          Password must be at least 6 characters long
+        </span>
+
+        <button type="submit" mat-raised-button>Log In</button>
+      </div>
+
+      <mat-card-footer>
+        <mat-progress-bar
+          style="position: absolute; right: 3px; border-radius: 8px; width: 99%"
+          *ngIf="isLoading"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </mat-card-footer>
+    </form>
+  </mat-card>
+</div>

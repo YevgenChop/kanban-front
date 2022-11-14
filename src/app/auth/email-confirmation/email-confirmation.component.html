@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="content">
+    <mat-progress-spinner
+      *ngIf="isLoading"
+      mode="indeterminate"
+    ></mat-progress-spinner>
+
+    <div *ngIf="!error && !isLoading; else errorTemplate">
+      <img
+        src="https://www.pngall.com/wp-content/uploads/8/Verification-PNG-Pic.png"
+        alt=""
+      />
+      <p>Email confirmed!</p>
+      <p>You will be automatically redirected to login page</p>
+    </div>
+
+    <ng-template #errorTemplate>
+      <div>
+        <img
+          src="https://cdn1.iconfinder.com/data/icons/zake-miscellaneous-011/64/unsent_email_message_error-512.png"
+          alt=""
+        />
+        <p>Email confirmation failed!</p>
+        <button mat-stroked-button (click)="resendEmail()">Resend email</button>
+      </div>
+    </ng-template>
+  </div>
+</div>

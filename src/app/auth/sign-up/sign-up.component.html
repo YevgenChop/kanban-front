@@ -1,0 +1,125 @@
+<div *ngIf="!signedUp; else signupSuccess" class="container">
+  <mat-card class="background-card">
+    <form [formGroup]="authForm" (ngSubmit)="handleSubmit()" #form="ngForm">
+      <div class="form-group">
+        <h2>Sign Up</h2>
+
+        <a routerLink="/auth/login"> Already have an account? </a>
+
+        <div *ngIf="error" class="form-error">
+          {{ error }}
+        </div>
+
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          required
+          formControlName="name"
+          placeholder="Name"
+        />
+
+        <span
+          class="form-error"
+          *ngIf="
+            !authForm.controls['name'].value.length &&
+            (authForm.controls['name'].touched || form.submitted)
+          "
+        >
+          Enter your name
+        </span>
+
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          name="email"
+          required
+          formControlName="email"
+          placeholder="Email"
+        />
+
+        <span
+          class="form-error"
+          *ngIf="
+            !authForm.controls['email'].value.length &&
+            (authForm.controls['email'].touched || form.submitted)
+          "
+        >
+          Enter your email
+        </span>
+
+        <span
+          class="form-error"
+          *ngIf="
+            authForm.controls['email'].value.length &&
+            authForm.controls['email'].invalid
+          "
+        >
+          Enter a valid email
+        </span>
+
+        <input
+          type="text"
+          class="form-control"
+          id="login"
+          name="login"
+          required
+          formControlName="login"
+          placeholder="Login"
+        />
+
+        <span
+          class="form-error"
+          *ngIf="
+            !authForm.controls['login'].value.length &&
+            (authForm.controls['login'].touched || form.submitted)
+          "
+        >
+          Enter your login
+        </span>
+
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          required
+          formControlName="password"
+          placeholder="Password"
+        />
+
+        <span
+          class="form-error"
+          *ngIf="
+            (authForm.controls['password'].dirty ||
+              authForm.controls['password'].touched ||
+              form.submitted) &&
+            authForm.controls['password'].invalid
+          "
+        >
+          Password must be at least 6 characters long
+        </span>
+
+        <button type="submit" mat-raised-button>Sign Up</button>
+      </div>
+
+      <mat-card-footer>
+        <mat-progress-bar
+          style="position: absolute; right: 3px; border-radius: 8px; width: 99%"
+          *ngIf="isLoading"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </mat-card-footer>
+    </form>
+  </mat-card>
+</div>
+
+<ng-template #signupSuccess>
+  <app-signup-success
+    [isLoading]="isLoading"
+    (restartSignUp)="restartSignUp()"
+    (resendEmail)="resendEmail()"
+  ></app-signup-success>
+</ng-template>

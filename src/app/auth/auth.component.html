@@ -1,0 +1,5 @@
+<app-sign-up *ngIf="isSignUpMode; else login"></app-sign-up>
+
+<ng-template #login>
+  <app-login></app-login>
+</ng-template>

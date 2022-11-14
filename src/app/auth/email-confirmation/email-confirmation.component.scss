@@ -1,0 +1,26 @@
+.container {
+  --p-fz: clamp(1rem, 0.8571rem + 0.7143vw, 2rem);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .content {
+    min-width: 50%;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+  }
+  p {
+    font-size: var(--p-fz);
+    line-height: var(--p-fz);
+  }
+  img {
+    width: clamp(60px, 30%, 200px);
+    padding: 10px;
+  }
+}
