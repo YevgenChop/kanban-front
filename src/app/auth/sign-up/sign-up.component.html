@@ -1,6 +1,10 @@
 <div *ngIf="!signedUp; else signupSuccess" class="container">
   <mat-card class="background-card">
-    <form [formGroup]="authForm" (ngSubmit)="handleSubmit()" #form="ngForm">
+    <form
+      [formGroup]="componentForm"
+      (ngSubmit)="handleSubmit()"
+      #form="ngForm"
+    >
       <div class="form-group">
         <h2>Sign Up</h2>
 
@@ -23,8 +27,8 @@
         <span
           class="form-error"
           *ngIf="
-            !authForm.controls['name'].value.length &&
-            (authForm.controls['name'].touched || form.submitted)
+            !componentForm.controls['name'].value.length &&
+            (componentForm.controls['name'].touched || form.submitted)
           "
         >
           Enter your name
@@ -43,8 +47,8 @@
         <span
           class="form-error"
           *ngIf="
-            !authForm.controls['email'].value.length &&
-            (authForm.controls['email'].touched || form.submitted)
+            !componentForm.controls['email'].value.length &&
+            (componentForm.controls['email'].touched || form.submitted)
           "
         >
           Enter your email
@@ -53,8 +57,8 @@
         <span
           class="form-error"
           *ngIf="
-            authForm.controls['email'].value.length &&
-            authForm.controls['email'].invalid
+            componentForm.controls['email'].value.length &&
+            componentForm.controls['email'].invalid
           "
         >
           Enter a valid email
@@ -73,8 +77,8 @@
         <span
           class="form-error"
           *ngIf="
-            !authForm.controls['login'].value.length &&
-            (authForm.controls['login'].touched || form.submitted)
+            !componentForm.controls['login'].value.length &&
+            (componentForm.controls['login'].touched || form.submitted)
           "
         >
           Enter your login
@@ -93,10 +97,10 @@
         <span
           class="form-error"
           *ngIf="
-            (authForm.controls['password'].dirty ||
-              authForm.controls['password'].touched ||
+            (componentForm.controls['password'].dirty ||
+              componentForm.controls['password'].touched ||
               form.submitted) &&
-            authForm.controls['password'].invalid
+            componentForm.controls['password'].invalid
           "
         >
           Password must be at least 6 characters long

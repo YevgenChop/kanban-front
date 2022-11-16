@@ -1,6 +1,10 @@
 <div class="container">
   <mat-card class="background-card">
-    <form [formGroup]="authForm" (ngSubmit)="handleSubmit()" #form="ngForm">
+    <form
+      [formGroup]="componentForm"
+      (ngSubmit)="handleSubmit()"
+      #form="ngForm"
+    >
       <div class="form-group">
         <h2>Log in</h2>
 
@@ -23,8 +27,8 @@
         <span
           class="form-error"
           *ngIf="
-            !authForm.controls['login'].value.length &&
-            (authForm.controls['login'].touched || form.submitted)
+            !componentForm.controls['login'].value.length &&
+            (componentForm.controls['login'].touched || form.submitted)
           "
         >
           Enter your login
@@ -43,10 +47,10 @@
         <span
           class="form-error"
           *ngIf="
-            (authForm.controls['password'].dirty ||
-              authForm.controls['password'].touched ||
+            (componentForm.controls['password'].dirty ||
+              componentForm.controls['password'].touched ||
               form.submitted) &&
-            authForm.controls['password'].invalid
+            componentForm.controls['password'].invalid
           "
         >
           Password must be at least 6 characters long

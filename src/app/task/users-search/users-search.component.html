@@ -1,0 +1,43 @@
+<div class="container">
+  <form [formGroup]="componentForm" #form="ngForm">
+    <div class="form-group">
+      <div *ngIf="error" class="form-error">
+        {{ error }}
+      </div>
+      <mat-form-field style="width: 100%; padding: 0">
+        <input
+          matInput
+          type="text"
+          class="form-control"
+          id="user"
+          name="user"
+          formControlName="user"
+          placeholder="Enter an email, login or name"
+          (blur)="onBlur()"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            style="min-height: 80px"
+            *ngFor="let user of users"
+            (click)="assignTask(user)"
+          >
+            <p style="padding: 0; margin: 0">{{ user.name }}</p>
+            <p style="padding: 0; margin-top: -20px; font-size: x-small">
+              {{ user.email }}
+            </p>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <p *ngIf="isLoading" class="p">Loading...</p>
+      <p
+        class="p"
+        *ngIf="
+          !isLoading && !users?.length && componentForm.controls['user'].value
+        "
+      >
+        No users found...
+      </p>
+    </div>
+  </form>
+</div>

@@ -20,8 +20,8 @@ export class SignUpComponent extends BaseFormComponent {
     super();
   }
 
-  public setAuthForm(): void {
-    this.authForm = this.fb.group(
+  public setForm(): void {
+    this.componentForm = this.fb.group(
       {
         name: ['', [Validators.required]],
         password: ['', [Validators.required, Validators.minLength(6)]],
@@ -34,7 +34,7 @@ export class SignUpComponent extends BaseFormComponent {
 
   public override async handleSubmit(): Promise<void> {
     await super.handleSubmit(async () => {
-      await this.authService.signUp(this.authForm.getRawValue());
+      await this.authService.signUp(this.componentForm.getRawValue());
       this.signedUp = true;
     });
   }

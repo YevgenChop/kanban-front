@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  overflow: scroll;
+  min-height: 100vh;
+  gap: 10px;
+  h2 {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70px;
+    background-color: rgb(155, 210, 243);
+    border-radius: 0 0 8px 8px;
+  }
+  .column {
+    min-width: 200px;
+    min-height: 200px;
+    background-color: rgb(252, 245, 245);
+    .task-card {
+      margin: 10px;
+    }
+  }
+}

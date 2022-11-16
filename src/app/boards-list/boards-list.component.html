@@ -1,0 +1,10 @@
+<div class="container">
+  <mat-card *ngFor="let board of boards$ | async" class="board-card">
+    <mat-card-title>{{ board.title }}</mat-card-title>
+    <mat-card-subtitle>{{ board.description }}</mat-card-subtitle>
+    <mat-card-actions>
+      <button mat-button [routerLink]="board.id">Open</button>
+      <button mat-button (click)="deleteBoard(board.id)">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

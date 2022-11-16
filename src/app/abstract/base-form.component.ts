@@ -1,30 +1,31 @@
 import { Injectable, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { UiComponent } from './ui-component.component';
 
 @Injectable()
-export abstract class BaseFormComponent implements OnInit {
-  public authForm!: FormGroup;
+export abstract class BaseFormComponent extends UiComponent implements OnInit {
+  public componentForm!: FormGroup;
   public error!: string;
   public isLoading = false;
 
-  abstract setAuthForm(): void;
+  abstract setForm(): void;
 
   ngOnInit(): void {
-    this.setAuthForm();
+    this.setForm();
   }
 
   public async handleSubmit(cb: () => Promise<void>): Promise<void> {
-    if (!this.authForm.valid) return;
+    if (!this.componentForm.valid) return;
 
-    this.authForm.disable();
+    this.componentForm.disable();
     this.error = '';
     this.isLoading = true;
 
     try {
       await cb();
       this.isLoading = false;
-      this.authForm.reset();
-      this.authForm.enable();
+      this.componentForm.reset();
+      this.componentForm.enable();
     } catch (error) {
       this.onCatchError(error as string);
     }
@@ -33,7 +34,7 @@ export abstract class BaseFormComponent implements OnInit {
   public onCatchError(error: string): void {
     this.error = error;
     this.isLoading = false;
-    this.authForm.enable();
-    this.authForm.markAsUntouched();
+    this.componentForm.enable();
+    this.componentForm.markAsUntouched();
   }
 }
