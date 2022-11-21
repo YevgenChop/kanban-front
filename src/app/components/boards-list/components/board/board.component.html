@@ -6,14 +6,22 @@
     <button mat-button (click)="openEditBoardDialog()">Edit Board</button>
   </div>
 </header>
-<div class="container">
+
+<div class="container" cdkDropListGroup cdkScrollable>
   <div
     class="column"
     [ngStyle]="{ 'flex-basis': 100 / statuses.length + '%' }"
     *ngFor="let entry of mappedTasks | keyvalue: preserveOrder"
+    cdkDropList
+    [cdkDropListAutoScrollStep]="30"
+    [cdkDropListData]="{ tasks: entry.value, statusTitle: entry.key }"
+    (cdkDropListDropped)="drop($event)"
   >
+
     <h2>{{ entry.key }}</h2>
+    
     <mat-card
+      cdkDrag
       (click)="openTaskDialog(task.id)"
       class="task-card"
       *ngFor="let task of entry.value"

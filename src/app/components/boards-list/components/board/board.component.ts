@@ -14,6 +14,12 @@ import { NewTaskComponent } from '../../../task/components/new-task/new-task.com
 import { BoardsService } from '../../services/boards.service';
 import { NewStatusComponent } from '../new-status/new-status.component';
 import { EditBoardComponent } from '../edit-board/edit-board.component';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-board',
@@ -32,7 +38,8 @@ export class BoardComponent extends UiComponent implements OnInit {
     private statusesStore: StatusesStore,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private boardsService: BoardsService
+    private boardsService: BoardsService,
+    private snackBar: MatSnackBar
   ) {
     super();
   }
@@ -78,6 +85,31 @@ export class BoardComponent extends UiComponent implements OnInit {
     await this.tasksService.getTaskStatuses(this.boardId);
   }
 
+  public async drop(
+    event: CdkDragDrop<{ tasks: ITask[]; statusTitle: string }>
+  ): Promise<void> {
+    if (event.previousContainer === event.container) {
+      return moveItemInArray(
+        event.container.data.tasks,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+
+    transferArrayItem(
+      event.previousContainer.data.tasks,
+      event.container.data.tasks,
+      event.previousIndex,
+      event.currentIndex
+    );
+
+    try {
+      await this.changeStatus(event);
+    } catch (error) {
+      this.handleStatusChangeError(event);
+    }
+  }
+
   public preserveOrder(): number {
     return 0;
   }
@@ -103,5 +135,31 @@ export class BoardComponent extends UiComponent implements OnInit {
           updated &&
           (this.board = await this.boardsService.getBoardById(this.boardId))
       );
+  }
+
+  private async changeStatus(
+    event: CdkDragDrop<{ tasks: ITask[]; statusTitle: string }>
+  ) {
+    const statusId = this.statuses.find(
+      (s) => s.title === event.container.data.statusTitle
+    )?.id as string;
+    const taskId = event.container.data.tasks[event.currentIndex].id;
+
+    await this.tasksService.changeStatus(taskId, statusId);
+  }
+
+  private handleStatusChangeError(
+    event: CdkDragDrop<{ tasks: ITask[]; statusTitle: string }>
+  ) {
+    transferArrayItem(
+      event.container.data.tasks,
+      event.previousContainer.data.tasks,
+      event.currentIndex,
+      event.previousIndex
+    );
+
+    this.snackBar.open('Something went wrong...', undefined, {
+      duration: 3000,
+    });
   }
 }

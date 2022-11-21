@@ -20,9 +20,7 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
   public status!: IStatus;
   public allStatuses!: IStatus[];
   public task!: ITask;
-  public get taskUsersIds(): string[] {
-    console.log(this.task);
-    
+  public get taskUsersIds(): string[] {    
     return this.task.users.map(({ id }) => id);
   }
 

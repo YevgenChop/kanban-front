@@ -72,25 +72,21 @@ export class BoardsService {
 
   public updateBoard(
     boardId: string,
-    boardData: INewBoardData
+    { title, description, usersIds }: INewBoardData
   ): Promise<IBoard> {
     return firstValueFrom(
       this.http
         .patch<IBoard>(`${environment.apiUrl}/board/${boardId}`, {
-          ...boardData,
+          title,
+          description,
+          usersIds,
         })
         .pipe(
           catchError(this.handleError),
           tap(() => {
             this.boardsStore.boards$.next(
               this.boardsStore.boards.map((b) =>
-                b.id === boardId
-                  ? {
-                      ...b,
-                      title: boardData.title,
-                      description: boardData.description,
-                    }
-                  : b
+                b.id === boardId ? { ...b, title, description } : b
               )
             );
           })
