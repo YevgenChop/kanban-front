@@ -1,0 +1,104 @@
+<div class="container">
+  <mat-card class="background-card">
+    <form
+      [formGroup]="componentForm"
+      (ngSubmit)="handleSubmit()"
+      #form="ngForm"
+    >
+      <div class="form-group">
+        <h2>Create a new task</h2>
+
+        <div *ngIf="error" class="form-error">
+          {{ error }}
+        </div>
+
+        <mat-form-field class="form-field" appearance="fill">
+          <input
+            matInput
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            required
+            formControlName="title"
+            placeholder="Title"
+          />
+        </mat-form-field>
+
+        <span
+          class="form-error"
+          *ngIf="
+            !componentForm.controls['title'].value.length &&
+            (componentForm.controls['title'].touched || form.submitted)
+          "
+        >
+          Enter the tasks's title
+        </span>
+
+        <mat-form-field class="form-field" appearance="fill">
+          <textarea
+            matInput
+            class="form-control"
+            id="description"
+            name="description"
+            required
+            formControlName="description"
+            placeholder="Description"
+          ></textarea>
+        </mat-form-field>
+
+        <span
+          class="form-error"
+          *ngIf="
+            !componentForm.controls['description'].value.length &&
+            (componentForm.controls['description'].touched || form.submitted)
+          "
+        >
+          Enter the tasks's description
+        </span>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="statusId" required>
+            <mat-option *ngFor="let status of statuses" [value]="status.id">
+              {{ status.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <app-users-search
+          (userSelectedEvent)="handleUserSelect($event)"
+        ></app-users-search>
+
+        <p>{{ selectedUsers.length ? "Assigned to:" : "Unassigned" }}</p>
+
+        <div class="assigned-users" *ngIf="selectedUsers.length">
+          <mat-card class="assigned-user" *ngFor="let user of selectedUsers">
+            <div>
+              <p>{{ user.name }}</p>
+              <p>{{ user.email }}</p>
+            </div>
+            <mat-icon (click)="unselectUser(user.id)">close</mat-icon>
+          </mat-card>
+        </div>
+      </div>
+      <div class="buttons">
+        <button
+          color="primary"
+          type="submit"
+          mat-raised-button
+        >
+          Create
+        </button>
+        <button
+          color="primary"
+          type="button"
+          mat-raised-button
+          mat-dialog-close
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
