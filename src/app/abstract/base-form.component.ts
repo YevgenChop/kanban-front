@@ -14,7 +14,10 @@ export abstract class BaseFormComponent extends UiComponent implements OnInit {
     this.setForm();
   }
 
-  public async handleSubmit(cb: () => Promise<void>): Promise<void> {
+  public async handleSubmit(
+    cb: () => Promise<void>,
+    options = { reset: true }
+  ): Promise<void> {
     if (!this.componentForm.valid) return;
 
     this.componentForm.disable();
@@ -24,7 +27,9 @@ export abstract class BaseFormComponent extends UiComponent implements OnInit {
     try {
       await cb();
       this.isLoading = false;
-      this.componentForm.reset();
+      if (options.reset) {
+        this.componentForm.reset();
+      }
       this.componentForm.enable();
     } catch (error) {
       this.onCatchError(error as string);

@@ -1,0 +1,103 @@
+<div class="container">
+  <div *ngIf="editMode" class="form-container">
+    <form
+      [formGroup]="componentForm"
+      (ngSubmit)="handleSubmit()"
+      #form="ngForm"
+    >
+      <div class="form-group">
+        <div *ngIf="error" class="form-error">
+          {{ error }}
+        </div>
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Title</mat-label>
+          <input
+            matInput
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            formControlName="title"
+          />
+        </mat-form-field>
+
+        <span
+          class="form-error"
+          *ngIf="!componentForm.controls['title'].value.length"
+        >
+          Enter task title
+        </span>
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            class="form-control"
+            id="description"
+            name="description"
+            formControlName="description"
+          ></textarea>
+        </mat-form-field>
+
+        <span
+          class="form-error"
+          *ngIf="!componentForm.controls['description'].value.length"
+        >
+          Enter task description
+        </span>
+      </div>
+      <div class="buttons">
+        <button type="submit" color="primary" mat-raised-button>Save</button>
+        <button
+          (click)="toggleMode()"
+          type="button"
+          color="primary"
+          mat-raised-button
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="task-info" *ngIf="!editMode">
+    <div>
+      <h2>
+        {{ task.title }}
+      </h2>
+      <mat-icon (click)="toggleMode()">edit</mat-icon>
+      <mat-icon (click)="deleteTask()">close</mat-icon>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Status</mat-label>
+      <mat-select [(value)]="status.id" (selectionChange)="changeStatus()">
+        <mat-option [value]="status.id" *ngFor="let status of allStatuses">
+          {{ status.title }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <p>Description</p>
+    <p>{{ task.description }}</p>
+  </div>
+
+  <div class="assignees">
+    <h3 *ngIf="task.users.length">Assignees:</h3>
+    <h3 *ngIf="!task.users.length">Unassigned</h3>
+
+    <app-users-search
+      (userSelectedEvent)="assignTask($event)"
+    ></app-users-search>
+
+    <div class="user-card-container" *ngIf="task.users.length">
+      <mat-card *ngFor="let user of task.users" class="user-card">
+        <p>{{ user.name }}</p>
+        <mat-icon (click)="unassignTask(user.id)">close</mat-icon>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="comments">
+    <app-comment [comments]="task.comments" [taskId]="task.id"></app-comment>
+  </div>
+</div>

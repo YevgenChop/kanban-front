@@ -1,4 +1,4 @@
-import { ITask } from "./task.model";
+import { ITask } from './task.model';
 
 export interface IBoard {
   id: string;
@@ -8,3 +8,10 @@ export interface IBoard {
   tasks: ITask[];
 }
 
+export interface INewBoardData extends Pick<IBoard, 'title' | 'description'> {
+  usersIds: string[];
+}
+
+export interface IBoardWithUsers extends Omit<IBoard, 'tasks'> {
+  users: { id: string; name: string; email: string }[];
+}

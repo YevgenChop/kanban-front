@@ -3,18 +3,30 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './components/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './iterceptors/token.interceptor';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { MatModule } from './shared/mat.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SettingsComponent } from './components/settings/settings.component';
+import { NewStatusComponent } from './components/boards-list/components/new-status/new-status.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    SidenavComponent,
+    SettingsComponent,
+    NewStatusComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AuthModule,
     BrowserAnimationsModule,
+    MatModule,
+    ReactiveFormsModule,
   ],
   providers: [
     {

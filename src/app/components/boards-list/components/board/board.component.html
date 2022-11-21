@@ -1,0 +1,25 @@
+<header>
+  <h2>{{ board && board.title }}</h2>
+  <div>
+    <button mat-button (click)="openNewTaskDialog()">New Task</button>
+    <button mat-button (click)="openNewStatusDialog()">New Status</button>
+    <button mat-button (click)="openEditBoardDialog()">Edit Board</button>
+  </div>
+</header>
+<div class="container">
+  <div
+    class="column"
+    [ngStyle]="{ 'flex-basis': 100 / statuses.length + '%' }"
+    *ngFor="let entry of mappedTasks | keyvalue: preserveOrder"
+  >
+    <h2>{{ entry.key }}</h2>
+    <mat-card
+      (click)="openTaskDialog(task.id)"
+      class="task-card"
+      *ngFor="let task of entry.value"
+    >
+      <mat-card-title>{{ task.title }}</mat-card-title>
+      <mat-card-subtitle>{{ task.description }}</mat-card-subtitle>
+    </mat-card>
+  </div>
+</div>

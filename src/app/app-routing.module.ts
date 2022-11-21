@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoutes } from './app-routes.enum';
-import { AuthComponent } from './auth/auth.component';
-import { EmailConfirmationComponent } from './auth/email-confirmation/email-confirmation.component';
+import { AuthComponent } from './components/auth/auth.component';
+import { EmailConfirmationComponent } from './components/auth/components/email-confirmation/email-confirmation.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UnauthGuard } from './guards/unauth.guard';
 import { UnverifiedGuard } from './guards/unverified.guard';
+import { NewBoardComponent } from './components/boards-list/components/new-board/new-board.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -26,7 +28,27 @@ const routes: Routes = [
   {
     path: AppRoutes.Boards,
     loadChildren: () =>
-      import('./boards-list/boards.module').then((m) => m.BoardsModule),
+      import('./components/boards-list/boards.module').then(
+        (m) => m.BoardsModule
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: AppRoutes.MyBoards,
+    loadChildren: () =>
+      import('./components/boards-list/boards.module').then(
+        (m) => m.BoardsModule
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: AppRoutes.NewBoard,
+    component: NewBoardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: AppRoutes.Settings,
+    component: SettingsComponent,
     canActivate: [AuthGuard],
   },
 ];

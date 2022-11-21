@@ -15,5 +15,15 @@ export interface ITaskUser {
 export interface ITaskComment {
   id: string;
   commentText: string;
-  user: ITaskUser;
+  userId: string;
+  taskId: string;
+  username: string;
+}
+
+export interface IUpdateTaskData extends Pick<ITask, 'title' | 'description'> {}
+
+export interface ICreateTaskData
+  extends Pick<ITask, 'title' | 'description' | 'statusId'> {
+  boardId: string;
+  usersIds: string[];
 }

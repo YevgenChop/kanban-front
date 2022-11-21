@@ -1,0 +1,26 @@
+<div class="container">
+  <ng-container *ngIf="boards$ | async as boards">
+    <div class="no-boards" *ngIf="!boards.length">
+      <p>There's no boards yet...</p>
+      <button color="primary" mat-flat-button routerLink="/new-board">Create a board</button>
+    </div>
+    <mat-card
+      [routerLink]="board.id"
+      *ngFor="let board of boards"
+      class="board-card"
+    >
+      <mat-card-title class="title">{{ board.title }}</mat-card-title>
+      <mat-card-subtitle class="description">{{
+        board.description
+      }}</mat-card-subtitle>
+      <mat-card-actions>
+        <!-- <button mat-button [routerLink]="board.id">Open</button> -->
+        <mat-icon
+          *ngIf="authUserId === board.ownerId"
+          (click)="deleteBoard(board.id)"
+          >close</mat-icon
+        >
+      </mat-card-actions>
+    </mat-card>
+  </ng-container>
+</div>
