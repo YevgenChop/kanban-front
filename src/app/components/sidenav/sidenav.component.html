@@ -1,4 +1,5 @@
 <mat-drawer-container
+  *ngIf="authUser$ | async"
   class="container"
   autosize
   (mouseenter)="isMobile && drawer.open()"
@@ -40,6 +41,9 @@
       >
         Settings
       </button>
+    </div>
+    <div>
+      <button (click)="logout()" mat-raised-button>Log out</button>
     </div>
   </mat-drawer>
 </mat-drawer-container>

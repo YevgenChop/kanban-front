@@ -4,7 +4,7 @@
   width: 100%;
   .content {
     flex: 1 1 auto;
-    max-width: calc(100vw - 300px);
+    min-width: calc(100vw - 300px);
   }
 }
 
