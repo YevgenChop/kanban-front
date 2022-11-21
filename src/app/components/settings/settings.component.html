@@ -1,0 +1,118 @@
+<div class="container">
+  <mat-card class="background-card">
+    <form
+      [formGroup]="componentForm"
+      (ngSubmit)="handleSubmit()"
+      #form="ngForm"
+    >
+      <div class="form-group">
+        <h2>Settings</h2>
+
+        <div *ngIf="error" class="form-error">
+          {{ error }}
+        </div>
+        <mat-form-field class="form-field" appearance="fill">
+          <input
+            matInput
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            required
+            formControlName="name"
+            placeholder="Name"
+          />
+        </mat-form-field>
+
+        <span
+          class="form-error"
+          *ngIf="
+            !componentForm.controls['name'].value.length &&
+            (componentForm.controls['name'].touched || form.submitted)
+          "
+        >
+          Enter your name
+        </span>
+        <mat-form-field class="form-field" appearance="fill">
+          <input
+            matInput
+            type="text"
+            class="form-control"
+            id="email"
+            name="email"
+            required
+            formControlName="email"
+            placeholder="Email"
+          />
+        </mat-form-field>
+
+        <span
+          class="form-error"
+          *ngIf="
+            !componentForm.controls['email'].value.length &&
+            (componentForm.controls['email'].touched || form.submitted)
+          "
+        >
+          Enter your email
+        </span>
+
+        <span
+          class="form-error"
+          *ngIf="
+            componentForm.controls['email'].value.length &&
+            componentForm.controls['email'].invalid
+          "
+        >
+          Enter a valid email
+        </span>
+        <mat-form-field class="form-field" appearance="fill">
+          <input
+            matInput
+            type="text"
+            class="form-control"
+            id="login"
+            name="login"
+            required
+            formControlName="login"
+            placeholder="Login"
+          />
+        </mat-form-field>
+
+        <span
+          class="form-error"
+          *ngIf="
+            !componentForm.controls['login'].value.length &&
+            (componentForm.controls['login'].touched || form.submitted)
+          "
+        >
+          Enter your login
+        </span>
+
+        <mat-form-field class="form-field" appearance="fill">
+          <input
+            matInput
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            formControlName="password"
+            placeholder="Password"
+          />
+        </mat-form-field>
+
+        <span
+          class="form-error"
+          *ngIf="
+            (componentForm.controls['password'].dirty ||
+              componentForm.controls['password'].touched ||
+              form.submitted) &&
+            componentForm.controls['password'].invalid
+          "
+        >
+          Password must be at least 6 characters long
+        </span>
+      </div>
+      <button type="submit" color="primary" mat-raised-button>Update</button>
+    </form>
+  </mat-card>
+</div>
