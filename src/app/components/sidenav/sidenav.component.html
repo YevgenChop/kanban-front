@@ -6,23 +6,39 @@
 >
   <mat-drawer #drawer class="sidenav" mode="side" [opened]="!isMobile">
     <div>
-      <button (click)="isMobile && drawer.close()" mat-raised-button>
-        <a routerLink="/boards">Boards</a>
+      <button
+        routerLink="/boards"
+        (click)="isMobile && drawer.close()"
+        mat-raised-button
+      >
+        Boards
       </button>
     </div>
     <div>
-      <button (click)="isMobile && drawer.close()" mat-raised-button>
-        <a routerLink="/my-boards">My boards</a>
+      <button
+        routerLink="/my-boards"
+        (click)="isMobile && drawer.close()"
+        mat-raised-button
+      >
+        My boards
       </button>
     </div>
     <div>
-      <button (click)="isMobile && drawer.close()" mat-raised-button>
-        <a routerLink="/new-board">New board</a>
+      <button
+        routerLink="/new-board"
+        (click)="isMobile && drawer.close()"
+        mat-raised-button
+      >
+        New board
       </button>
     </div>
     <div>
-      <button (click)="isMobile && drawer.close()" mat-raised-button>
-        <a routerLink="/settings">Settings</a>
+      <button
+        routerLink="/settings"
+        (click)="isMobile && drawer.close()"
+        mat-raised-button
+      >
+        Settings
       </button>
     </div>
   </mat-drawer>
