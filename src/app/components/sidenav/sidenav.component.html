@@ -1,0 +1,29 @@
+<mat-drawer-container
+  class="container"
+  autosize
+  (mouseenter)="isMobile && drawer.open()"
+  (mouseleave)="isMobile && drawer.close()"
+>
+  <mat-drawer #drawer class="sidenav" mode="side" [opened]="!isMobile">
+    <div>
+      <button (click)="isMobile && drawer.close()" mat-raised-button>
+        <a routerLink="/boards">Boards</a>
+      </button>
+    </div>
+    <div>
+      <button (click)="isMobile && drawer.close()" mat-raised-button>
+        <a routerLink="/my-boards">My boards</a>
+      </button>
+    </div>
+    <div>
+      <button (click)="isMobile && drawer.close()" mat-raised-button>
+        <a routerLink="/new-board">New board</a>
+      </button>
+    </div>
+    <div>
+      <button (click)="isMobile && drawer.close()" mat-raised-button>
+        <a routerLink="/settings">Settings</a>
+      </button>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>

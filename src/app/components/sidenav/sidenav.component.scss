@@ -1,0 +1,25 @@
+.container {
+  border: 1px solid transparent;
+  min-height: 100%;
+  .sidenav {
+    background-color: rgb(236, 236, 244);
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    div {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+      button {
+        min-height: 80px;
+        min-width: 200px;
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
+      }
+    }
+  }
+}
