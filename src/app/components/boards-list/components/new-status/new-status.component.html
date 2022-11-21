@@ -1,0 +1,51 @@
+<div class="container">
+  <mat-card class="background-card">
+    <form
+      [formGroup]="componentForm"
+      (ngSubmit)="handleSubmit()"
+      #form="ngForm"
+    >
+      <div class="form-group">
+        <h2>Create a new status</h2>
+
+        <div *ngIf="error" class="form-error">
+          {{ error }}
+        </div>
+
+        <mat-form-field class="form-field" appearance="fill">
+          <input
+            matInput
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            required
+            formControlName="title"
+            placeholder="Title"
+          />
+        </mat-form-field>
+
+        <span
+          class="form-error"
+          *ngIf="
+            !componentForm.controls['title'].value.length &&
+            (componentForm.controls['title'].touched || form.submitted)
+          "
+        >
+          Enter the status' title
+        </span>
+      </div>
+      <div class="buttons">
+        <button color="primary" type="submit" mat-raised-button>Create</button>
+        <button
+          color="primary"
+          type="button"
+          mat-raised-button
+          mat-dialog-close
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
