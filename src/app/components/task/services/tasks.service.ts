@@ -10,6 +10,7 @@ import {
 import { environment } from '../../../../environments/environment';
 import { IStatus } from '../../../models/status.model';
 import { StatusesStore } from '../../../store/statuses.store';
+import { IUserSearchResult } from '../../../models/user-search-result.model';
 
 @Injectable({
   providedIn: 'root',
@@ -105,7 +106,7 @@ export class TasksService {
   }
 
   public async assignTask(
-    user: { id: string; email: string; name: string },
+    user: IUserSearchResult,
     taskId: string
   ): Promise<void> {
     await firstValueFrom(

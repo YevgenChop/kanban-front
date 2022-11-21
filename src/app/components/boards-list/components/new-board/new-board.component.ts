@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IUserSearchResult } from '../../../../models/user-search-result.model';
 import { BaseFormComponent } from '../../../../abstract/base-form.component';
 import { BoardsService } from '../../services/boards.service';
 
@@ -10,7 +11,11 @@ import { BoardsService } from '../../services/boards.service';
   styleUrls: ['./new-board.component.scss'],
 })
 export class NewBoardComponent extends BaseFormComponent {
-  public selectedUsers: { id: string; name: string; email: string }[] = [];
+  public selectedUsers: IUserSearchResult[] = [];
+  public get selectedUsersIds(): string[] {
+    return this.selectedUsers.map(({ id }) => id);
+  }
+
   constructor(
     private fb: FormBuilder,
     private boardsService: BoardsService,
@@ -30,17 +35,13 @@ export class NewBoardComponent extends BaseFormComponent {
     await super.handleSubmit(async () => {
       const { id } = await this.boardsService.createBoard({
         ...this.componentForm.getRawValue(),
-        usersIds: this.selectedUsers.map(({ id }) => id),
+        usersIds: this.selectedUsersIds,
       });
       this.router.navigateByUrl(`boards/${id}`);
     });
   }
 
-  public handleUserSelect(user: {
-    id: string;
-    name: string;
-    email: string;
-  }): void {
+  public handleUserSelect(user: IUserSearchResult): void {
     this.selectedUsers.push(user);
   }
 

@@ -4,6 +4,7 @@ export interface ITask {
   description: string;
   users: ITaskUser[];
   statusId: string;
+  boardId: string;
   comments: ITaskComment[];
 }
 

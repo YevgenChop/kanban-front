@@ -1,7 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs';
-import { BaseFormComponent } from 'src/app/abstract/base-form.component';
+import { BaseFormComponent } from '../../../abstract/base-form.component';
+import { IUserSearchResult } from '../../../models/user-search-result.model';
 import { UsersService } from './users.service';
 
 @Component({
@@ -10,12 +11,10 @@ import { UsersService } from './users.service';
   styleUrls: ['./users-search.component.scss'],
 })
 export class UsersSearchComponent extends BaseFormComponent implements OnInit {
-  public users!: { id: string; email: string; name: string }[];
-  @Output() userSelectedEvent = new EventEmitter<{
-    id: string;
-    email: string;
-    name: string;
-  }>();
+  public users!: IUserSearchResult[];
+  @Input() boardId?: string;
+  @Input() skipUserIds?: string[];
+  @Output() userSelectedEvent = new EventEmitter<IUserSearchResult>();
 
   constructor(private fb: FormBuilder, private usersService: UsersService) {
     super();
@@ -38,15 +37,15 @@ export class UsersSearchComponent extends BaseFormComponent implements OnInit {
 
   private async setUsers(term: string): Promise<void> {
     this.isLoading = true;
-    this.users = await this.usersService.getUsers(term);
+    this.users = await this.usersService.getUsers({
+      term,
+      boardId: this.boardId,
+      skipUserIds: this.skipUserIds,
+    });
     this.isLoading = false;
   }
 
-  public async handleClick(user: {
-    id: string;
-    email: string;
-    name: string;
-  }): Promise<void> {
+  public async handleClick(user: IUserSearchResult): Promise<void> {
     this.userSelectedEvent.emit(user);
   }
 

@@ -58,6 +58,7 @@
 
         <app-users-search
           (userSelectedEvent)="handleUserSelect($event)"
+          [skipUserIds]="selectedUsersIds"
         ></app-users-search>
 
         <div class="assigned-users" *ngIf="selectedUsers.length">

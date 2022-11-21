@@ -87,6 +87,8 @@
 
     <app-users-search
       (userSelectedEvent)="assignTask($event)"
+      [skipUserIds]="taskUsersIds"
+      [boardId]="task.boardId"
     ></app-users-search>
 
     <div class="user-card-container" *ngIf="task.users.length">

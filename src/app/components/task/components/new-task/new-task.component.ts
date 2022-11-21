@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IUserSearchResult } from '../../../../models/user-search-result.model';
 import { BaseFormComponent } from '../../../../abstract/base-form.component';
 import { StatusesStore } from '../../../../store/statuses.store';
 import { TasksService } from '../../services/tasks.service';
@@ -12,13 +13,13 @@ import { TasksService } from '../../services/tasks.service';
 })
 export class NewTaskComponent extends BaseFormComponent {
   public statuses = this.statusesStore.statuses;
-  public selectedUsers: {
-    id: string;
-    email: string;
-    name: string;
-  }[] = [];
+  public selectedUsers: IUserSearchResult[] = [];
+  public get selectedUsersIds(): string[] {
+    return this.selectedUsers.map(({ id }) => id);
+  }
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) private boardId: string,
+    @Inject(MAT_DIALOG_DATA) public boardId: string,
     private fb: FormBuilder,
     private tasksService: TasksService,
     private statusesStore: StatusesStore,
@@ -38,11 +39,7 @@ export class NewTaskComponent extends BaseFormComponent {
     });
   }
 
-  public handleUserSelect(user: {
-    id: string;
-    email: string;
-    name: string;
-  }): void {
+  public handleUserSelect(user: IUserSearchResult): void {
     this.selectedUsers.push(user);
   }
 

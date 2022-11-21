@@ -68,6 +68,8 @@
 
         <app-users-search
           (userSelectedEvent)="handleUserSelect($event)"
+          [skipUserIds]="selectedUsersIds"
+          [boardId]="boardId"
         ></app-users-search>
 
         <p>{{ selectedUsers.length ? "Assigned to:" : "Unassigned" }}</p>
@@ -83,13 +85,7 @@
         </div>
       </div>
       <div class="buttons">
-        <button
-          color="primary"
-          type="submit"
-          mat-raised-button
-        >
-          Create
-        </button>
+        <button color="primary" type="submit" mat-raised-button>Create</button>
         <button
           color="primary"
           type="button"

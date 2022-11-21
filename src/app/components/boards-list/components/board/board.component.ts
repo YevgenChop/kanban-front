@@ -7,13 +7,13 @@ import { IStatus } from '../../../../models/status.model';
 import { TasksStore } from '../../../../store/tasks.store';
 import { TasksService } from '../../../task/services/tasks.service';
 import { StatusesStore } from '../../../../store/statuses.store';
-import { UiComponent } from 'src/app/abstract/ui-component.component';
+import { UiComponent } from '../../../../abstract/ui-component.component';
 import { takeUntil } from 'rxjs';
-import { IBoard } from 'src/app/models/board.model';
-import { NewTaskComponent } from 'src/app/components/task/components/new-task/new-task.component';
+import { IBoard } from '../../../../models/board.model';
+import { NewTaskComponent } from '../../../task/components/new-task/new-task.component';
 import { BoardsService } from '../../services/boards.service';
-import { NewStatusComponent } from 'src/app/components/boards-list/components/new-status/new-status.component';
-import { EditBoardComponent } from 'src/app/components/boards-list/components/edit-board/edit-board.component';
+import { NewStatusComponent } from '../new-status/new-status.component';
+import { EditBoardComponent } from '../edit-board/edit-board.component';
 
 @Component({
   selector: 'app-board',

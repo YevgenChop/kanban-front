@@ -58,6 +58,7 @@
 
         <app-users-search
           (userSelectedEvent)="handleUserSelect($event)"
+          [skipUserIds]="selectedUsersIds"
         ></app-users-search>
 
         <div class="assigned-users" *ngIf="selectedUsers.length">
@@ -69,7 +70,6 @@
             <mat-icon (click)="unselectUser(user.id)">close</mat-icon>
           </mat-card>
         </div>
-        
       </div>
       <button color="primary" type="submit" mat-raised-button>Create</button>
     </form>

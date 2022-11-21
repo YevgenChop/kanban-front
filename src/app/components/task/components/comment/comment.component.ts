@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AuthUserStore } from 'src/app/store/auth-user.store';
+import { AuthUserStore } from '../../../../store/auth-user.store';
 import { BaseFormComponent } from '../../../../abstract/base-form.component';
 import { ITaskComment } from '../../../../models/task.model';
 import { CommentsService } from './comments.service';

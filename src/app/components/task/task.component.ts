@@ -8,6 +8,7 @@ import { StatusesStore } from '../../store/statuses.store';
 import { IStatus } from '../../models/status.model';
 import { TasksStore } from '../../store/tasks.store';
 import { takeUntil } from 'rxjs';
+import { IUserSearchResult } from '../../models/user-search-result.model';
 
 @Component({
   selector: 'app-task',
@@ -19,6 +20,12 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
   public status!: IStatus;
   public allStatuses!: IStatus[];
   public task!: ITask;
+  public get taskUsersIds(): string[] {
+    console.log(this.task);
+    
+    return this.task.users.map(({ id }) => id);
+  }
+
   constructor(
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public taskId: string,
@@ -79,11 +86,7 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
     await this.taskService.unassignTask(userId, this.task.id);
   }
 
-  public async assignTask(user: {
-    id: string;
-    email: string;
-    name: string;
-  }): Promise<void> {
+  public async assignTask(user: IUserSearchResult): Promise<void> {
     await this.taskService.assignTask(user, this.task.id);
   }
 

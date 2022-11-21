@@ -1,4 +1,5 @@
 import { ITask } from './task.model';
+import { IUserSearchResult } from './user-search-result.model';
 
 export interface IBoard {
   id: string;
@@ -13,5 +14,5 @@ export interface INewBoardData extends Pick<IBoard, 'title' | 'description'> {
 }
 
 export interface IBoardWithUsers extends Omit<IBoard, 'tasks'> {
-  users: { id: string; name: string; email: string }[];
+  users: IUserSearchResult[];
 }

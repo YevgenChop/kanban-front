@@ -3,7 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BaseFormComponent } from '../../../../abstract/base-form.component';
 import { BoardsService } from '../../services/boards.service';
-import { IBoard, IBoardWithUsers } from '../../../../models/board.model';
+import { IBoardWithUsers } from '../../../../models/board.model';
+import { IUserSearchResult } from '../../../../models/user-search-result.model';
 
 @Component({
   selector: 'app-edit-board',
@@ -12,6 +13,10 @@ import { IBoard, IBoardWithUsers } from '../../../../models/board.model';
 })
 export class EditBoardComponent extends BaseFormComponent {
   public selectedUsers = this.board.users;
+  public get selectedUsersIds(): string[] {
+    return this.selectedUsers.map(({ id }) => id);
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private board: IBoardWithUsers,
     private fb: FormBuilder,
@@ -32,17 +37,13 @@ export class EditBoardComponent extends BaseFormComponent {
     await super.handleSubmit(async () => {
       await this.boardsService.updateBoard(this.board.id, {
         ...this.componentForm.getRawValue(),
-        usersIds: this.selectedUsers.map(({ id }) => id),
+        usersIds: this.selectedUsersIds,
       });
       this.dialogRef.close({ updated: true });
     });
   }
 
-  public handleUserSelect(user: {
-    id: string;
-    name: string;
-    email: string;
-  }): void {
+  public handleUserSelect(user: IUserSearchResult): void {
     this.selectedUsers.push(user);
   }
 

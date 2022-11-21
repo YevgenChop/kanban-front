@@ -1,33 +1,50 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, firstValueFrom, of } from 'rxjs';
+import { catchError, firstValueFrom } from 'rxjs';
+import { IUserSearchResult } from '../../../models/user-search-result.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  private users = [
-    {
-      id: '1f824ecb-ed90-42c1-ac3c-81dd4b3dead3',
-      name: 'wwwwww',
-      email: 'lelel10810@sopulit.com',
-    },
-    {
-      id: 'b31a1c0f-530a-4afe-85f6-bb993405ac2f',
-      name: 'test',
-      email: 'dojoda1467@lidely.com',
-    },
-  ];
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  public getUsers(
-    term: string
-  ): Promise<{ id: string; name: string; email: string }[]> {
+  public getUsers(options: {
+    term: string;
+    boardId?: string;
+    skipUserIds?: string[];
+  }): Promise<IUserSearchResult[]> {
+    let queryParams = `term=${options.term}`;
+
+    queryParams = options.boardId
+      ? queryParams + `&boardId=${options.boardId}`
+      : queryParams;
+
+    if (options.skipUserIds?.length) {
+      for (const id of options.skipUserIds) {
+        queryParams = `${queryParams}&skipUserIds[]=${id}`;
+      }
+    }
+
     return firstValueFrom(
-      of(
-        this.users.filter(
-          (u) => u.email.includes(term) || u.name.includes(term)
+      this.http
+        .get<IUserSearchResult[]>(
+          `${environment.apiUrl}/user/search?${queryParams}`
         )
-      ).pipe(delay(1000))
+        .pipe(catchError(this.handleError))
     );
+  }
+
+  private handleError(error: HttpErrorResponse): Promise<never> {
+    let errorMessage = 'An unknown error occured...';
+
+    if (error && error.error.message) {
+      errorMessage = Array.isArray(error.error.message)
+        ? error.error.message.join(', ')
+        : error.error.message;
+    }
+
+    return Promise.reject(errorMessage);
   }
 }
