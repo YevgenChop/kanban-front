@@ -10,16 +10,11 @@ import { StatusesStore } from '../../../../store/statuses.store';
 import { UiComponent } from '../../../../abstract/ui-component.component';
 import { takeUntil } from 'rxjs';
 import { IBoard } from '../../../../models/board.model';
-import { NewTaskComponent } from '../../../task/components/new-task/new-task.component';
 import { BoardsService } from '../../services/boards.service';
-import { NewStatusComponent } from '../new-status/new-status.component';
-import { EditBoardComponent } from '../edit-board/edit-board.component';
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ColumnsService } from './services/columns.service';
+import { DragAndDropService } from './services/drag-and-drop.service';
 
 @Component({
   selector: 'app-board',
@@ -27,9 +22,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent extends UiComponent implements OnInit {
+  private statuses!: IStatus[];
   public mappedTasks!: { [key: string]: ITask[] };
-  public statuses!: IStatus[];
   public board!: IBoard;
+  public columns!: string[];
   public boardId = this.route.snapshot.params['boardId'];
 
   constructor(
@@ -39,29 +35,27 @@ export class BoardComponent extends UiComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private boardsService: BoardsService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private columnsService: ColumnsService,
+    private dragAndDropService: DragAndDropService
   ) {
     super();
   }
 
   async ngOnInit(): Promise<void> {
+    await this.getData();
     this.subscribeToStatuses();
     this.subscribeToTasks();
-    await this.getData();
   }
 
-  private mapTasksToColumns(): void {
-    const dictionary: { [key: string]: ITask[] } = {};
+  private async getData(): Promise<void> {
+    this.getBoard();
+    await this.tasksService.getTasksByBoardId(this.boardId);
+    await this.tasksService.getTaskStatuses(this.boardId);
+  }
 
-    for (const { title, id } of this.statuses) {
-      if (!dictionary[title]) dictionary[title] = [];
-
-      dictionary[title] = this.tasksStore.tasks.filter(
-        (t) => t.statusId === id
-      );
-    }
-
-    this.mappedTasks = dictionary;
+  public async getBoard(): Promise<void> {
+    this.board = await this.boardsService.getBoardById(this.boardId);
   }
 
   private subscribeToStatuses(): void {
@@ -69,75 +63,43 @@ export class BoardComponent extends UiComponent implements OnInit {
       .pipe(takeUntil(this.notifier$))
       .subscribe((statuses) => {
         this.statuses = statuses;
-        this.mapTasksToColumns();
+        this.columns = this.columnsService.getColumns(
+          this.boardId,
+          this.statuses.map(({ title }) => title)
+        );
       });
   }
 
   private subscribeToTasks(): void {
-    this.tasksStore.tasks$
-      .pipe(takeUntil(this.notifier$))
-      .subscribe(() => this.mapTasksToColumns());
+    this.tasksStore.tasks$.pipe(takeUntil(this.notifier$)).subscribe(() => {
+      this.mappedTasks = this.columnsService.mapTasksToColumns(
+        this.statuses,
+        this.tasksStore.tasks
+      );
+    });
   }
 
-  private async getData(): Promise<void> {
-    this.board = await this.boardsService.getBoardById(this.boardId);
-    await this.tasksService.getTasksByBoardId(this.boardId);
-    await this.tasksService.getTaskStatuses(this.boardId);
-  }
-
-  public async drop(
+  public async dropTask(
     event: CdkDragDrop<{ tasks: ITask[]; statusTitle: string }>
   ): Promise<void> {
-    if (event.previousContainer === event.container) {
-      return moveItemInArray(
-        event.container.data.tasks,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-
-    transferArrayItem(
-      event.previousContainer.data.tasks,
-      event.container.data.tasks,
-      event.previousIndex,
-      event.currentIndex
-    );
-
+    this.dragAndDropService.dropTask(event);
     try {
-      await this.changeStatus(event);
+      await this.changeTaskStatus(event);
     } catch (error) {
       this.handleStatusChangeError(event);
     }
   }
 
-  public preserveOrder(): number {
-    return 0;
+  public dropColumn(event: CdkDragDrop<string[]>): void {
+    this.dragAndDropService.dropColumn(event);
+    this.columnsService.saveColumnsOrder(this.boardId, this.columns);
   }
 
   public openTaskDialog(taskId: string): void {
     this.dialog.open(TaskComponent, { data: taskId });
   }
 
-  public openNewTaskDialog(): void {
-    this.dialog.open(NewTaskComponent, { data: this.boardId });
-  }
-
-  public openNewStatusDialog(): void {
-    this.dialog.open(NewStatusComponent, { data: this.boardId });
-  }
-
-  public openEditBoardDialog(): void {
-    this.dialog
-      .open(EditBoardComponent, { data: this.board })
-      .afterClosed()
-      .subscribe(
-        async ({ updated }) =>
-          updated &&
-          (this.board = await this.boardsService.getBoardById(this.boardId))
-      );
-  }
-
-  private async changeStatus(
+  private async changeTaskStatus(
     event: CdkDragDrop<{ tasks: ITask[]; statusTitle: string }>
   ) {
     const statusId = this.statuses.find(
@@ -151,12 +113,7 @@ export class BoardComponent extends UiComponent implements OnInit {
   private handleStatusChangeError(
     event: CdkDragDrop<{ tasks: ITask[]; statusTitle: string }>
   ) {
-    transferArrayItem(
-      event.container.data.tasks,
-      event.previousContainer.data.tasks,
-      event.currentIndex,
-      event.previousIndex
-    );
+    this.dragAndDropService.putTaskBack(event);
 
     this.snackBar.open('Something went wrong...', undefined, {
       duration: 3000,

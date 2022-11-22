@@ -13,6 +13,7 @@ import { UsersSearchComponent } from '../shared/users-search/users-search.compon
 import { NewBoardComponent } from './components/new-board/new-board.component';
 import { NewTaskComponent } from '../task/components/new-task/new-task.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
+import { BoardHeaderComponent } from './components/board/components/board-header/board-header.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { EditBoardComponent } from './components/edit-board/edit-board.component
     NewBoardComponent,
     NewTaskComponent,
     EditBoardComponent,
+    BoardHeaderComponent,
   ],
   imports: [
     CommonModule,

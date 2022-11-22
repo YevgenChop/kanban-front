@@ -1,30 +1,33 @@
-<header>
-  <h2>{{ board && board.title }}</h2>
-  <div>
-    <button mat-button (click)="openNewTaskDialog()">New Task</button>
-    <button mat-button (click)="openNewStatusDialog()">New Status</button>
-    <button mat-button (click)="openEditBoardDialog()">Edit Board</button>
-  </div>
-</header>
+<app-board-header [board]="board" (updateBoardEvent)="getBoard()">
+</app-board-header>
 
-<div class="container" cdkDropListGroup cdkScrollable>
+<div
+  class="container"
+  cdkDropListGroup
+  cdkScrollable
+  cdkDropList
+  [cdkDropListData]="columns"
+  (cdkDropListDropped)="dropColumn($event)"
+  cdkDropListOrientation="horizontal"
+  [cdkDropListAutoScrollStep]="30"
+>
   <div
+    cdkDrag
     class="column"
-    [ngStyle]="{ 'flex-basis': 100 / statuses.length + '%' }"
-    *ngFor="let entry of mappedTasks | keyvalue: preserveOrder"
+    [ngStyle]="{ 'flex-basis': 100 / columns.length + '%' }"
+    *ngFor="let column of columns"
     cdkDropList
     [cdkDropListAutoScrollStep]="30"
-    [cdkDropListData]="{ tasks: entry.value, statusTitle: entry.key }"
-    (cdkDropListDropped)="drop($event)"
+    [cdkDropListData]="{ tasks: mappedTasks[column], statusTitle: column }"
+    (cdkDropListDropped)="dropTask($event)"
   >
+    <h2>{{ column }}</h2>
 
-    <h2>{{ entry.key }}</h2>
-    
     <mat-card
       cdkDrag
       (click)="openTaskDialog(task.id)"
       class="task-card"
-      *ngFor="let task of entry.value"
+      *ngFor="let task of mappedTasks[column]"
     >
       <mat-card-title>{{ task.title }}</mat-card-title>
       <mat-card-subtitle>{{ task.description }}</mat-card-subtitle>

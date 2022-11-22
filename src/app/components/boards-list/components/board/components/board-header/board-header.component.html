@@ -1,0 +1,8 @@
+<header>
+    <h2>{{ board && board.title }}</h2>
+    <div>
+      <button mat-button (click)="openNewTaskDialog()">New Task</button>
+      <button mat-button (click)="openNewStatusDialog()">New Status</button>
+      <button mat-button (click)="openEditBoardDialog()">Edit Board</button>
+    </div>
+  </header>
