@@ -13,11 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SidenavComponent,
-    SettingsComponent,
-  ],
+  declarations: [AppComponent, SidenavComponent, SettingsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

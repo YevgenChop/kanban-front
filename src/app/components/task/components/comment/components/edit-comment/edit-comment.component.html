@@ -1,0 +1,19 @@
+<form
+  [formGroup]="componentForm"
+  (keyup.enter)="handleSubmit()"
+  (focusout)="cancel()"
+  #form="ngForm"
+>
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      id="commentText"
+      name="commentText"
+      required
+      formControlName="commentText"
+      appAutoFocus
+    />
+    <span>press enter to save</span>
+  </div>
+</form>

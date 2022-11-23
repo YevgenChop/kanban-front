@@ -19,6 +19,9 @@ import { StatusDialogComponent } from './components/statuses/status-dialog.compo
 import { AutofocusDirective } from 'src/app/directives/autofocus.directive';
 import { StatusListComponent } from './components/statuses/components/status-list/status-list.component';
 import { NewStatusComponent } from './components/statuses/components/new-status/new-status.component';
+import { NewCommentComponent } from '../task/components/comment/components/new-comment/new-comment.component';
+import { CommentsListComponent } from '../task/components/comment/components/comments-list/comments-list.component';
+import { EditCommentComponent } from '../task/components/comment/components/edit-comment/edit-comment.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { NewStatusComponent } from './components/statuses/components/new-status/
     AutofocusDirective,
     StatusListComponent,
     NewStatusComponent,
+    NewCommentComponent,
+    CommentsListComponent,
+    EditCommentComponent,
   ],
   imports: [
     CommonModule,

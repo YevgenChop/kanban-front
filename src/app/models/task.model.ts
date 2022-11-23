@@ -19,6 +19,8 @@ export interface ITaskComment {
   userId: string;
   taskId: string;
   username: string;
+  updatedDate: string;
+  createdDate: string;
 }
 
 export interface IUpdateTaskData extends Pick<ITask, 'title' | 'description'> {}

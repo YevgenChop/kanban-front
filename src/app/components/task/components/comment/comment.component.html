@@ -1,55 +1,8 @@
 <div class="container">
-  <h2>Comments</h2>
-  <div class="comments">
-    <mat-card class="comment-card" *ngFor="let comment of comments">
-      <div>
-        <p>{{ comment.username }}</p>
-        <p>{{ comment.commentText }}</p>
-      </div>
-      <div>
-        <mat-icon
-          (click)="deleteComment(comment.id, comment.taskId)"
-          *ngIf="authUserId === comment.userId"
-          >delete_outline</mat-icon
-        >
+  <app-comments-list
+    [taskId]="taskId"
+    [comments]="comments"
+  ></app-comments-list>
 
-        <mat-icon
-          (click)="switchEditModeOn(comment)"
-          *ngIf="authUserId === comment.userId && commentId !== comment.id"
-          >edit</mat-icon
-        >
-
-        <mat-icon
-          (click)="switchEditModeOff()"
-          *ngIf="
-            authUserId === comment.userId &&
-            isEditMode &&
-            commentId === comment.id
-          "
-          >check_circle_outline</mat-icon
-        >
-      </div>
-    </mat-card>
-  </div>
-
-  <form [formGroup]="componentForm" (ngSubmit)="handleSubmit()" #form="ngForm">
-    <div class="form-group">
-      <mat-form-field class="form-field" appearance="fill">
-        <mat-label>{{
-          isEditMode ? "Edit comment" : "Leave comment"
-        }}</mat-label>
-        <input
-          matInput
-          type="text"
-          class="form-control"
-          id="commentText"
-          name="commentText"
-          formControlName="commentText"
-          placeholder="Comment"
-        />
-      </mat-form-field>
-
-      <button type="submit" mat-raised-button>Send</button>
-    </div>
-  </form>
+  <app-new-comment [taskId]="taskId"></app-new-comment>
 </div>

@@ -1,0 +1,47 @@
+<h2>Comments</h2>
+<div class="comments">
+  <mat-card class="comment-card" *ngFor="let comment of comments">
+    <div class="comment-content">
+      <div class="comment-header">
+        <p>{{ comment.username }}</p>
+        <span *ngIf="comment.updatedDate === comment.createdDate">
+          {{ comment.createdDate | date: "short" }}
+        </span>
+        <span *ngIf="comment.updatedDate !== comment.createdDate">
+          edited {{ comment.updatedDate | date: "short" }}
+        </span>
+      </div>
+
+      <p *ngIf="comment.id !== editedCommentId; else editComment">
+        {{ comment.commentText }}
+      </p>
+    </div>
+
+    <div class="icons" *ngIf="authUserId === comment.userId">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_horizontal</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="switchEditModeOn(comment)" mat-menu-item>
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </button>
+        <button (click)="deleteComment(comment.id, taskId)" mat-menu-item>
+          <mat-icon>close</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </div>
+
+    <ng-template #editComment>
+      <app-edit-comment
+        [commentId]="editedCommentId"
+        [taskId]="taskId"
+        [commentText]="comment.commentText"
+        *ngIf="isEditMode && comment.id === editedCommentId"
+        (updatedEvent)="switchEditModeOff()"
+      >
+      </app-edit-comment>
+    </ng-template>
+  </mat-card>
+</div>

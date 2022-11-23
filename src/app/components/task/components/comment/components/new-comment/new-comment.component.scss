@@ -1,0 +1,12 @@
+  .form-group {
+    display: flex;
+    gap: 10px;
+    .form-field {
+      flex: 1 1 90%;
+    }
+    button {
+      align-self: center;
+      margin-bottom: 18px;
+    }
+  }
+
