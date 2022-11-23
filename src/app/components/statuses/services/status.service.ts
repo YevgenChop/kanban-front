@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, tap } from 'rxjs';
-import { environment } from '../../../../../../environments/environment';
-import { ICreateStatusData, IStatus } from '../../../../../models/status.model';
-import { StatusesStore } from '../../../../../store/statuses.store';
+import { environment } from '../../../../environments/environment';
+import { ICreateStatusData, IStatus } from '../../../models/status.model';
+import { StatusesStore } from '../../../store/statuses.store';
 
 @Injectable({
   providedIn: 'root',

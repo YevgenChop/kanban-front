@@ -1,15 +1,15 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, tap } from 'rxjs';
-import { TasksStore } from '../../../../store/tasks.store';
+import { TasksStore } from '../../../../../store/tasks.store';
 import {
   ICreateTaskData,
   ITask,
   ITaskComment,
   IUpdateTaskData,
-} from '../../../../models/task.model';
-import { environment } from '../../../../../environments/environment';
-import { IStatus } from '../../../../models/status.model';
+} from '../../../../../models/task.model';
+import { environment } from '../../../../../../environments/environment';
+import { IStatus } from '../../../../../models/status.model';
 
 @Injectable({
   providedIn: 'root',

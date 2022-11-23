@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ITask } from '../../../../models/task.model';
-import { TaskComponent } from '../../../task/task.component';
+import { TaskComponent } from '../../../tasks/task.component';
 import { IStatus } from '../../../../models/status.model';
 import { TasksStore } from '../../../../store/tasks.store';
-import { TasksService } from '../../../task/services/tasks.service';
+import { TasksService } from '../../../tasks/services/tasks.service';
 import { StatusesStore } from '../../../../store/statuses.store';
 import { UiComponent } from '../../../../abstract/ui-component.component';
 import { Observable, of, takeUntil } from 'rxjs';
@@ -28,7 +28,7 @@ export class BoardComponent extends UiComponent implements OnInit {
   public columns!: string[];
   public boardId = this.route.snapshot.params['boardId'];
 
-  public getColumns(): string[]{
+  public getColumns(): string[] {
     return this.columns;
   }
 

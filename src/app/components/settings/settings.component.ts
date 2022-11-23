@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseFormComponent } from '../../abstract/base-form.component';
 import { IUpdateUserData } from '../../models/auth-user.model';
 import { AuthUserStore } from '../../store/auth-user.store';
-import { UserService } from './user.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-settings',

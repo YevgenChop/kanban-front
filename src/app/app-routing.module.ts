@@ -6,7 +6,7 @@ import { EmailConfirmationComponent } from './components/auth/components/email-c
 import { AuthGuard } from './guards/auth.guard';
 import { UnauthGuard } from './guards/unauth.guard';
 import { UnverifiedGuard } from './guards/unverified.guard';
-import { NewBoardComponent } from './components/boards-list/components/new-board/new-board.component';
+import { NewBoardComponent } from './components/boards/components/new-board/new-board.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
@@ -28,17 +28,13 @@ const routes: Routes = [
   {
     path: AppRoutes.Boards,
     loadChildren: () =>
-      import('./components/boards-list/boards.module').then(
-        (m) => m.BoardsModule
-      ),
+      import('./components/boards/boards.module').then((m) => m.BoardsModule),
     canActivate: [AuthGuard],
   },
   {
     path: AppRoutes.MyBoards,
     loadChildren: () =>
-      import('./components/boards-list/boards.module').then(
-        (m) => m.BoardsModule
-      ),
+      import('./components/boards/boards.module').then((m) => m.BoardsModule),
     canActivate: [AuthGuard],
   },
   {

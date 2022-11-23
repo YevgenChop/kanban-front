@@ -3,8 +3,8 @@ import { takeUntil } from 'rxjs';
 import { UiComponent } from 'src/app/abstract/ui-component.component';
 import { IStatus } from 'src/app/models/status.model';
 import { StatusesStore } from 'src/app/store/statuses.store';
-import { ColumnsService } from '../../../board/services/columns.service';
-import { DragAndDropService } from '../../../board/services/drag-and-drop.service';
+import { ColumnsService } from '../../../boards/components/board/services/columns.service';
+import { DragAndDropService } from '../../../boards/components/board/services/drag-and-drop.service';
 import { StatusService } from '../../services/status.service';
 
 @Component({

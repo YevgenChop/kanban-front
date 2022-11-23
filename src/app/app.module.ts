@@ -11,6 +11,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { MatModule } from './shared/mat.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
+import { UsersSearchComponent } from './components/shared/users-search/users-search.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, SidenavComponent, SettingsComponent],
@@ -20,7 +22,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     AuthModule,
     BrowserAnimationsModule,
     MatModule,
-    ReactiveFormsModule,
+    SharedModule,
   ],
   providers: [
     {
@@ -29,6 +31,7 @@ import { SettingsComponent } from './components/settings/settings.component';
       multi: true,
     },
   ],
+  exports: [UsersSearchComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

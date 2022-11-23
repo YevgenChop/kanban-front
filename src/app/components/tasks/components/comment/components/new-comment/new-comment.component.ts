@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { BaseFormComponent } from 'src/app/abstract/base-form.component';
-import { CommentsService } from '../../comments.service';
+import { CommentsService } from '../../services/comments.service';
 
 @Component({
   selector: 'app-new-comment',
