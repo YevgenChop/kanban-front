@@ -11,14 +11,12 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { MatModule } from './shared/mat.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
-import { NewStatusComponent } from './components/boards-list/components/new-status/new-status.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidenavComponent,
     SettingsComponent,
-    NewStatusComponent,
   ],
   imports: [
     BrowserModule,

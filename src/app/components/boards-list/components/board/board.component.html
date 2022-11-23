@@ -1,4 +1,8 @@
-<app-board-header [board]="board" (updateBoardEvent)="getBoard()">
+<app-board-header
+  [board]="board"
+  (updateBoardEvent)="getBoard()"
+  [getColumns]="getColumns.bind(this)"
+>
 </app-board-header>
 
 <div
@@ -10,6 +14,7 @@
   (cdkDropListDropped)="dropColumn($event)"
   cdkDropListOrientation="horizontal"
   [cdkDropListAutoScrollStep]="30"
+  cdkDropListLockAxis="x"
 >
   <div
     cdkDrag

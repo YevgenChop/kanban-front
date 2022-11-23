@@ -1,0 +1,10 @@
+<div class="container">
+  <mat-card class="background-card">
+    <app-status-list
+      [boardId]="data.boardId"
+      [getColumns]="data.getColumns"
+    ></app-status-list>
+
+    <app-new-status [boardId]="data.boardId"></app-new-status>
+  </mat-card>
+</div>

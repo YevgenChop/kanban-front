@@ -14,6 +14,11 @@ import { NewBoardComponent } from './components/new-board/new-board.component';
 import { NewTaskComponent } from '../task/components/new-task/new-task.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
 import { BoardHeaderComponent } from './components/board/components/board-header/board-header.component';
+import { EditStatusComponent } from './components/statuses/components/edit-status/edit-status.component';
+import { StatusDialogComponent } from './components/statuses/status-dialog.component';
+import { AutofocusDirective } from 'src/app/directives/autofocus.directive';
+import { StatusListComponent } from './components/statuses/components/status-list/status-list.component';
+import { NewStatusComponent } from './components/statuses/components/new-status/new-status.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +31,11 @@ import { BoardHeaderComponent } from './components/board/components/board-header
     NewTaskComponent,
     EditBoardComponent,
     BoardHeaderComponent,
+    StatusDialogComponent,
+    EditStatusComponent,
+    AutofocusDirective,
+    StatusListComponent,
+    NewStatusComponent,
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BaseFormComponent } from '../../../../abstract/base-form.component';
-import { StatusService } from './status.service';
+import { BaseFormComponent } from 'src/app/abstract/base-form.component';
+import { StatusService } from '../../services/status.service';
 
 @Component({
   selector: 'app-new-status',
@@ -10,12 +9,8 @@ import { StatusService } from './status.service';
   styleUrls: ['./new-status.component.scss'],
 })
 export class NewStatusComponent extends BaseFormComponent {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) private boardId: string,
-    private fb: FormBuilder,
-    private statusService: StatusService,
-    private dialogRef: MatDialogRef<NewStatusComponent>
-  ) {
+  @Input() boardId!: string;
+  constructor(private fb: FormBuilder, private statusService: StatusService) {
     super();
   }
 
@@ -31,7 +26,6 @@ export class NewStatusComponent extends BaseFormComponent {
         ...this.componentForm.getRawValue(),
         boardId: this.boardId,
       });
-      this.dialogRef.close();
     });
   }
 }

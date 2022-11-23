@@ -1,0 +1,45 @@
+<div
+  cdkScrollable
+  cdkDropList
+  [cdkDropListData]="columns"
+  class="example-list"
+  (cdkDropListDropped)="drop($event)"
+>
+<h2>Drag and drop to change order</h2>
+  <div
+    class="example-box"
+    *ngFor="let column of columns"
+    cdkDrag
+    cdkDragLockAxis="y"
+    cdkDragBoundary=".example-list"
+  >
+    <div *ngIf="editedStatus !== column">
+      {{ column }}
+    </div>
+
+    <app-edit-status
+      style="flex: 1 1 80%"
+      *ngIf="editMode && column === editedStatus"
+      [statusId]="getStatusId(column)"
+      [boardId]="boardId"
+      [title]="column"
+      (updatedEvent)="switchEditModeOff()"
+    ></app-edit-status>
+
+    <div class="icons" *ngIf="isCustom(column)">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_horizontal</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="switchEditModeOn(column)" mat-menu-item>
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </button>
+        <button (click)="deleteStatus(column)" mat-menu-item>
+          <mat-icon>close</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</div>

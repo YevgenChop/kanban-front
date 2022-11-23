@@ -6,7 +6,7 @@ import { NewTaskComponent } from 'src/app/components/task/components/new-task/ne
 import { TaskComponent } from 'src/app/components/task/task.component';
 import { IBoard } from 'src/app/models/board.model';
 import { EditBoardComponent } from '../../../edit-board/edit-board.component';
-import { NewStatusComponent } from '../../../new-status/new-status.component';
+import { StatusDialogComponent } from '../../../statuses/status-dialog.component';
 
 @Component({
   selector: 'app-board-header',
@@ -15,6 +15,8 @@ import { NewStatusComponent } from '../../../new-status/new-status.component';
 })
 export class BoardHeaderComponent extends UiComponent {
   @Input() board!: IBoard;
+  @Input() columns!: string[];
+  @Input() getColumns!: () => string[];
   @Output() updateBoardEvent = new EventEmitter<void>();
 
   constructor(private dialog: MatDialog) {
@@ -29,8 +31,14 @@ export class BoardHeaderComponent extends UiComponent {
     this.dialog.open(NewTaskComponent, { data: this.board.id });
   }
 
-  public openNewStatusDialog(): void {
-    this.dialog.open(NewStatusComponent, { data: this.board.id });
+  public openStatusesDialog(): void {
+    this.dialog.open(StatusDialogComponent, {
+      data: {
+        boardId: this.board.id,
+        getColumns: this.getColumns,
+      },
+      autoFocus: false,
+    });
   }
 
   public openEditBoardDialog(): void {
@@ -38,6 +46,8 @@ export class BoardHeaderComponent extends UiComponent {
       .open(EditBoardComponent, { data: this.board })
       .afterClosed()
       .pipe(takeUntil(this.notifier$))
-      .subscribe(async ({ updated }) => updated && this.updateBoardEvent.emit());
+      .subscribe(
+        async ({ updated }) => updated && this.updateBoardEvent.emit()
+      );
   }
 }

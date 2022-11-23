@@ -8,7 +8,7 @@ import { TasksStore } from '../../../../store/tasks.store';
 import { TasksService } from '../../../task/services/tasks.service';
 import { StatusesStore } from '../../../../store/statuses.store';
 import { UiComponent } from '../../../../abstract/ui-component.component';
-import { takeUntil } from 'rxjs';
+import { Observable, of, takeUntil } from 'rxjs';
 import { IBoard } from '../../../../models/board.model';
 import { BoardsService } from '../../services/boards.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
@@ -27,6 +27,10 @@ export class BoardComponent extends UiComponent implements OnInit {
   public board!: IBoard;
   public columns!: string[];
   public boardId = this.route.snapshot.params['boardId'];
+
+  public getColumns(): string[]{
+    return this.columns;
+  }
 
   constructor(
     private tasksService: TasksService,

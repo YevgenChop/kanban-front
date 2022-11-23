@@ -30,7 +30,10 @@ export class ColumnsService {
     if (!savedColumns) return statuses;
 
     const refreshedColumns = [
-      ...new Set([...JSON.parse(savedColumns), ...statuses]),
+      ...new Set([
+        ...JSON.parse(savedColumns).filter((c: string) => statuses.includes(c)),
+        ...statuses,
+      ]),
     ];
 
     this.saveColumnsOrder(boardId, refreshedColumns);

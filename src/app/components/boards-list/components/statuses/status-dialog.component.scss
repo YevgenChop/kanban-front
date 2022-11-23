@@ -1,0 +1,16 @@
+.container {
+  min-width: 30vw;
+  height: 65vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: scroll;
+  .background-card {
+    height: 90%;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+  }
+}

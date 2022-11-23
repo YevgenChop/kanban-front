@@ -1,0 +1,24 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  h2 {
+    margin: 0;
+  }
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 30%;
+}
+.buttons {
+  display: flex;
+  gap: 10px;
+  button {
+    width: 50%;
+  }
+}
+
+.form-error {
+  color: red;
+}

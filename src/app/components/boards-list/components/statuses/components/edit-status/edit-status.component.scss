@@ -1,0 +1,15 @@
+input {
+  background-color: rgb(228, 238, 238);
+}
+
+input:focus {
+  width: 100%;
+  height: 40px;
+  outline: none;
+  border: none;
+  background-color: rgb(230, 232, 232);
+}
+span{
+    font-size: 0.7rem;
+    color: blue;
+}
