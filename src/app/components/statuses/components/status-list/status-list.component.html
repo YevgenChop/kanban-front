@@ -1,3 +1,5 @@
+<h2>Drag and drop to change order</h2>
+
 <div
   cdkScrollable
   cdkDropList
@@ -5,7 +7,6 @@
   class="example-list"
   (cdkDropListDropped)="drop($event)"
 >
-<h2>Drag and drop to change order</h2>
   <div
     class="example-box"
     *ngFor="let column of columns"

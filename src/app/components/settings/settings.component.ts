@@ -31,7 +31,7 @@ export class SettingsComponent extends BaseFormComponent {
         login: [this.user?.login, Validators.required],
         password: ['', [Validators.minLength(6)]],
       },
-      { updateOn: 'blur' }
+      { updateOn: 'submit' }
     );
   }
 

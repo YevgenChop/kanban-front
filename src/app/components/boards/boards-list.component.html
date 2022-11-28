@@ -1,6 +1,5 @@
 <div class="container">
   <ng-container *ngIf="boards$ | async as boards">
-
     <div class="no-boards" *ngIf="!boards.length">
       <p>There's no boards yet...</p>
       <button color="primary" mat-flat-button routerLink="/new-board">
@@ -8,24 +7,24 @@
       </button>
     </div>
 
-    <mat-card *ngFor="let board of boards" class="board-card">
+    <mat-card
+      [routerLink]="board.id"
+      *ngFor="let board of boards"
+      class="board-card"
+    >
+      <mat-card-title class="title">{{ board.title }}</mat-card-title>
 
-      <mat-card-title [routerLink]="board.id" class="title">{{
-        board.title
-      }}</mat-card-title>
-
-      <mat-card-subtitle [routerLink]="board.id" class="description">{{
-        board.description
-      }}</mat-card-subtitle>
-
-      <mat-card-actions>
+      <mat-card-actions class="delete-icon">
         <mat-icon
           *ngIf="authUserId === board.ownerId"
-          (click)="deleteBoard(board.id)"
+          (click)="deleteBoard(board.id); $event.stopPropagation()"
           >close</mat-icon
         >
       </mat-card-actions>
-      
+
+      <mat-card-subtitle class="description">{{
+        board.description
+      }}</mat-card-subtitle>
     </mat-card>
   </ng-container>
 </div>

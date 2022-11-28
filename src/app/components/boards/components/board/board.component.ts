@@ -9,7 +9,7 @@ import { TasksService } from '../../../tasks/services/tasks.service';
 import { StatusesStore } from '../../../../store/statuses.store';
 import { UiComponent } from '../../../../abstract/ui-component.component';
 import { Observable, of, takeUntil } from 'rxjs';
-import { IBoard } from '../../../../models/board.model';
+import { IBoard, IBoardWithUsers } from '../../../../models/board.model';
 import { BoardsService } from '../../services/boards.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -24,9 +24,17 @@ import { DragAndDropService } from './services/drag-and-drop.service';
 export class BoardComponent extends UiComponent implements OnInit {
   private statuses!: IStatus[];
   public mappedTasks!: { [key: string]: ITask[] };
-  public board!: IBoard;
+  public board!: IBoardWithUsers;
   public columns!: string[];
   public boardId = this.route.snapshot.params['boardId'];
+  public get numberOfTasks(): number {
+    return this.tasksStore.tasks.length;
+  }
+  public getAssignedUsersString(users: { id: string; name: string }[]): string {
+    if (!users.length) return 'Unassigned';
+    if (users.length <= 2) return users.map((u) => u.name).join(', ');
+    return `${users[0].name}, ${users[1].name} and ${users.length - 2} more`;
+  }
 
   public getColumns(): string[] {
     return this.columns;
@@ -87,6 +95,9 @@ export class BoardComponent extends UiComponent implements OnInit {
     event: CdkDragDrop<{ tasks: ITask[]; statusTitle: string }>
   ): Promise<void> {
     this.dragAndDropService.dropTask(event);
+
+    if (event.previousContainer === event.container) return;
+
     try {
       await this.changeTaskStatus(event);
     } catch (error) {

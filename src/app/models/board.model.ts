@@ -7,6 +7,7 @@ export interface IBoard {
   title: string;
   description: string;
   tasks: ITask[];
+  createdDate: string;
 }
 
 export interface INewBoardData extends Pick<IBoard, 'title' | 'description'> {

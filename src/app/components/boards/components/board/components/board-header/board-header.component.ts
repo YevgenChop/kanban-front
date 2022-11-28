@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs';
 import { UiComponent } from 'src/app/abstract/ui-component.component';
 import { NewTaskComponent } from 'src/app/components/tasks/components/new-task/new-task.component';
 import { TaskComponent } from 'src/app/components/tasks/task.component';
-import { IBoard } from 'src/app/models/board.model';
+import { IBoardWithUsers } from 'src/app/models/board.model';
 import { EditBoardComponent } from '../../../edit-board/edit-board.component';
 import { StatusDialogComponent } from '../../../../../statuses/status-dialog.component';
 
@@ -14,7 +14,7 @@ import { StatusDialogComponent } from '../../../../../statuses/status-dialog.com
   styleUrls: ['./board-header.component.scss'],
 })
 export class BoardHeaderComponent extends UiComponent {
-  @Input() board!: IBoard;
+  @Input() board!: IBoardWithUsers;
   @Input() columns!: string[];
   @Input() getColumns!: () => string[];
   @Output() updateBoardEvent = new EventEmitter<void>();
@@ -24,15 +24,19 @@ export class BoardHeaderComponent extends UiComponent {
   }
 
   public openTaskDialog(taskId: string): void {
-    this.dialog.open(TaskComponent, { data: taskId });
+    this.dialog.open(TaskComponent, { maxWidth: '100vw', data: taskId });
   }
 
   public openNewTaskDialog(): void {
-    this.dialog.open(NewTaskComponent, { data: this.board.id });
+    this.dialog.open(NewTaskComponent, {
+      maxWidth: '100vw',
+      data: this.board.id,
+    });
   }
 
   public openStatusesDialog(): void {
     this.dialog.open(StatusDialogComponent, {
+      maxWidth: '100vw',
       data: {
         boardId: this.board.id,
         getColumns: this.getColumns,
@@ -43,7 +47,7 @@ export class BoardHeaderComponent extends UiComponent {
 
   public openEditBoardDialog(): void {
     this.dialog
-      .open(EditBoardComponent, { data: this.board })
+      .open(EditBoardComponent, { maxWidth: '100vw', data: this.board })
       .afterClosed()
       .pipe(takeUntil(this.notifier$))
       .subscribe(

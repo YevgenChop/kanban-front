@@ -1,8 +1,32 @@
 <header>
   <h2>{{ board && board.title }}</h2>
-  <div>
+  <ng-container *ngTemplateOutlet="icons"></ng-container>
+
+  <div class="buttons">
     <button mat-button (click)="openNewTaskDialog()">New Task</button>
-    <button mat-button (click)="openStatusesDialog()">Edit Statuses</button>
+    <button mat-button (click)="openStatusesDialog()">Edit Status List</button>
     <button mat-button (click)="openEditBoardDialog()">Edit Board</button>
   </div>
 </header>
+
+<ng-template #icons>
+  <div class="icons">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_horizontal</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="openNewTaskDialog()">
+        <mat-icon>add_circle_outline</mat-icon>
+        <span>New Task</span>
+      </button>
+      <button mat-menu-item (click)="openStatusesDialog()">
+        <mat-icon>sort</mat-icon>
+        <span> Edit Status List </span>
+      </button>
+      <button mat-menu-item (click)="openEditBoardDialog()">
+        <mat-icon>dashboard</mat-icon>
+        <span>Edit Board</span>
+      </button>
+    </mat-menu>
+  </div>
+</ng-template>

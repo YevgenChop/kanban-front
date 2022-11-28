@@ -1,0 +1,18 @@
+<div class="container">
+
+  <div class="users">
+    <p><span>Date added:</span> {{ board.createdDate | date: "shortDate" }}</p>
+    <p><span>Users:</span> {{ boardUsersString }}</p>
+  </div>
+
+  <div class="description">
+    <p>{{ board.description }}</p>
+  </div>
+
+  <div class="stats">
+    <p><span>All tasks:</span> {{ numberOfTasks }}</p>
+    <p><span>Done:</span> {{ numberOfDoneTasks }}</p>
+    <p><span>Blocked:</span> {{ numberOfBlockedTasks }}</p>
+  </div>
+  
+</div>

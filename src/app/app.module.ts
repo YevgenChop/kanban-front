@@ -9,7 +9,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './iterceptors/token.interceptor';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { MatModule } from './shared/mat.module';
-import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
 import { UsersSearchComponent } from './components/shared/users-search/users-search.component';
 import { SharedModule } from './shared/shared.module';

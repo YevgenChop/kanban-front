@@ -1,16 +1,11 @@
-<mat-drawer-container
-  *ngIf="authUser$ | async"
-  class="container"
-  autosize
-  (mouseenter)="isMobile && drawer.open()"
-  (mouseleave)="isMobile && drawer.close()"
->
+<mat-drawer-container *ngIf="authUser$ | async" class="container" autosize>
   <mat-drawer #drawer class="sidenav" mode="side" [opened]="!isMobile">
     <div>
       <button
         routerLink="/boards"
         (click)="isMobile && drawer.close()"
-        mat-raised-button
+        mat-button
+        [ngClass]="{ clicked: clickedButton === '/boards' }"
       >
         Boards
       </button>
@@ -19,7 +14,8 @@
       <button
         routerLink="/my-boards"
         (click)="isMobile && drawer.close()"
-        mat-raised-button
+        mat-button
+        [ngClass]="{ clicked: clickedButton === '/my-boards' }"
       >
         My boards
       </button>
@@ -28,7 +24,8 @@
       <button
         routerLink="/new-board"
         (click)="isMobile && drawer.close()"
-        mat-raised-button
+        mat-button
+        [ngClass]="{ clicked: clickedButton === '/new-board' }"
       >
         New board
       </button>
@@ -37,13 +34,20 @@
       <button
         routerLink="/settings"
         (click)="isMobile && drawer.close()"
-        mat-raised-button
+        mat-button
+        [ngClass]="{ clicked: clickedButton === '/settings' }"
       >
         Settings
       </button>
     </div>
     <div>
-      <button (click)="logout()" mat-raised-button>Log out</button>
+      <button (click)="logout()" mat-button>Log out</button>
     </div>
   </mat-drawer>
+
+  <button class="drawer-button" mat-icon-button (click)="drawer.toggle()">
+    <mat-icon *ngIf="!drawer.opened">arrow_forward_ios</mat-icon>
+    <mat-icon *ngIf="drawer.opened">arrow_back_ios</mat-icon>
+  </button>
+  
 </mat-drawer-container>

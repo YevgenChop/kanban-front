@@ -2,7 +2,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { IBoard, INewBoardData } from '../../../models/board.model';
+import {
+  IBoard,
+  IBoardWithUsers,
+  INewBoardData,
+} from '../../../models/board.model';
 import { AuthUserStore } from '../../../store/auth-user.store';
 import { BoardsStore } from '../../../store/boards.store';
 
@@ -16,11 +20,11 @@ export class BoardsService {
     private boardsStore: BoardsStore
   ) {}
 
-  public getBoardsByOwnerId(limit = 5, offset = 0): Promise<IBoard[]> {
+  public getBoardsByOwnerId(limit = 100, offset = 0): Promise<IBoardWithUsers[]> {
     const id = this.authUserStore.id;
     return firstValueFrom(
       this.http
-        .get<IBoard[]>(
+        .get<IBoardWithUsers[]>(
           `${environment.apiUrl}/board?ownerId=${id}&limit=${limit}&offset=${offset}`
         )
         .pipe(
@@ -30,11 +34,11 @@ export class BoardsService {
     );
   }
 
-  public getBoardsByUserId(limit = 5, offset = 0): Promise<IBoard[]> {
+  public getBoardsByUserId(limit = 100, offset = 0): Promise<IBoardWithUsers[]> {
     const id = this.authUserStore.id;
     return firstValueFrom(
       this.http
-        .get<IBoard[]>(
+        .get<IBoardWithUsers[]>(
           `${environment.apiUrl}/board?userId=${id}&limit=${limit}&offset=${offset}`
         )
         .pipe(
@@ -57,10 +61,10 @@ export class BoardsService {
     );
   }
 
-  public createBoard(boardData: INewBoardData): Promise<IBoard> {
+  public createBoard(boardData: INewBoardData): Promise<IBoardWithUsers> {
     return firstValueFrom(
       this.http
-        .post<IBoard>(`${environment.apiUrl}/board`, { ...boardData })
+        .post<IBoardWithUsers>(`${environment.apiUrl}/board`, { ...boardData })
         .pipe(
           catchError(this.handleError),
           tap((board) =>
@@ -94,10 +98,10 @@ export class BoardsService {
     );
   }
 
-  public getBoardById(id: string): Promise<IBoard> {
+  public getBoardById(id: string): Promise<IBoardWithUsers> {
     return firstValueFrom(
       this.http
-        .get<IBoard>(`${environment.apiUrl}/board/${id}`)
+        .get<IBoardWithUsers>(`${environment.apiUrl}/board/${id}`)
         .pipe(catchError(this.handleError))
     );
   }

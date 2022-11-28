@@ -6,6 +6,7 @@ export interface ITask {
   statusId: string;
   boardId: string;
   comments: ITaskComment[];
+  createdDate: string;
 }
 
 export interface ITaskUser {

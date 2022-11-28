@@ -2,13 +2,17 @@
   max-width: 80%;
   margin: 100px auto;
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
+  gap: 15px;
+  overflow: scroll;
+  max-height: 80%;
+  padding: 10px;
   .no-boards {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
     p {
       text-align: center;
       font-size: 2rem;
@@ -20,19 +24,42 @@
   }
 
   .board-card {
-    margin: 10px;
-    flex: 0 1 46%;
+    flex: 0 1 29%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    cursor: pointer;
-    .title {
-      flex: 0 1 50%;
-      margin: 0;
+    height: 200px;
+    background-color: rgb(244, 244, 250);
+
+    &:hover {
+      .delete-icon {
+        display: block;
+      }
     }
-    .description {
-      flex: 1 1 auto;
-      margin: 0;
+    .delete-icon {
+      position: absolute;
+      right: 20px;
+      top: 0px;
+      display: none;
+    }
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    .board-card {
+      flex: 0 1 40%;
+    }
+  }
+}
+
+
+@media (max-width: 425px) {
+  .container {
+    .board-card {
+      flex: 0 1 100%;
     }
   }
 }

@@ -1,14 +1,35 @@
 header {
-    margin: 0;
-    padding: 0;
-    min-height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    h2 {
-      margin: 10px;
+  margin: 0;
+  padding: 0;
+  min-height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 90%;
+  margin: 0 auto;
+  h2 {
+    margin: 10px;
+    text-transform: uppercase;
+  }
+  button {
+    margin: 10px;
+  }
+  .icons {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    .icons {
+      display: block;
+      button {
+        display: flex;
+        justify-content: space-between;
+      }
     }
-    button {
-      margin: 10px;
+    .buttons {
+      display: none;
     }
   }
+}

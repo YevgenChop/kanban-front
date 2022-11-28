@@ -1,6 +1,6 @@
 <h2>Comments</h2>
-<div class="comments">
-  <mat-card class="comment-card" *ngFor="let comment of comments">
+<div class="comments" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+  <div class="comment" *ngFor="let comment of comments">
     <div class="comment-content">
       <div class="comment-header">
         <p>{{ comment.username }}</p>
@@ -43,5 +43,5 @@
       >
       </app-edit-comment>
     </ng-template>
-  </mat-card>
+  </div>
 </div>

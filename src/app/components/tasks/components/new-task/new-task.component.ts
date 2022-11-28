@@ -36,7 +36,7 @@ export class NewTaskComponent extends BaseFormComponent {
         this.statuses[0].id,
         [Validators.required, Validators.maxLength(200)],
       ],
-    });
+    }, {updateOn: 'submit'});
   }
 
   public handleUserSelect(user: IUserSearchResult): void {
@@ -50,6 +50,7 @@ export class NewTaskComponent extends BaseFormComponent {
         boardId: this.boardId,
         usersIds: this.selectedUsers.map(({ id }) => id),
       });
+      await this.tasksService.getTasksByBoardId(this.boardId);
       this.dialogRef.close();
     });
   }

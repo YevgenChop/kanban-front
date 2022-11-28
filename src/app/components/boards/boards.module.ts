@@ -10,6 +10,7 @@ import { BoardHeaderComponent } from './components/board/components/board-header
 import { TaskModule } from '../tasks/task.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StatusModule } from '../statuses/status.module';
+import { BoardInfoComponent } from './components/board/components/board-info/board-info.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { StatusModule } from '../statuses/status.module';
     NewBoardComponent,
     EditBoardComponent,
     BoardHeaderComponent,
+    BoardInfoComponent,
   ],
   imports: [
     MatModule,

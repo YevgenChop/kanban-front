@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: default;
   .background-card {
     width: 40%;
     form {
@@ -37,4 +38,14 @@
 
 .form-error {
   color: red;
+  margin-top: -15px;
+  padding-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    .background-card {
+      width: 85vw;
+    }
+  }
 }

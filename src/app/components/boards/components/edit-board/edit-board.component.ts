@@ -27,10 +27,13 @@ export class EditBoardComponent extends BaseFormComponent {
   }
 
   public setForm(): void {
-    this.componentForm = this.fb.group({
-      title: [this.board.title, Validators.required],
-      description: [this.board.description, Validators.required],
-    });
+    this.componentForm = this.fb.group(
+      {
+        title: [this.board.title, Validators.required],
+        description: [this.board.description, Validators.required],
+      },
+      { updateOn: 'change' }
+    );
   }
 
   public override async handleSubmit(): Promise<void> {

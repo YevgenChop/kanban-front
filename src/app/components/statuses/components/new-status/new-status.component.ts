@@ -15,9 +15,12 @@ export class NewStatusComponent extends BaseFormComponent {
   }
 
   public setForm(): void {
-    this.componentForm = this.fb.group({
-      title: ['', [Validators.required, Validators.maxLength(50)]],
-    });
+    this.componentForm = this.fb.group(
+      {
+        title: ['', [Validators.required, Validators.maxLength(50)]],
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public override async handleSubmit(): Promise<void> {

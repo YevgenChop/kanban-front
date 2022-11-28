@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  margin: 20px auto;
+  max-width: 90%;
+  gap: 20px;
+  cursor: default;
+  .users,
+  .description,
+  .stats {
+    background-color: rgb(246, 246, 250);
+    border-radius: 8px;
+    padding: 15px;
+    p {
+      display: flex;
+      justify-content: space-between;
+      span {
+        font-size: 1.1rem;
+        font-weight: 800;
+      }
+    }
+  }
+
+  .users,
+  .stats {
+    flex: 1 1 250px;
+  }
+
+  .description {
+    flex: 1 1 55%;
+  }
+  .stats {
+    display: flex;
+    flex-direction: column;
+  }
+  .users {
+    text-align: right;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    .users,
+    .description,
+    .stats {
+      max-height: 80px;
+    }
+  }
+}

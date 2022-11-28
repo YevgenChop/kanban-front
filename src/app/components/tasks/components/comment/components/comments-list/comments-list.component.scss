@@ -4,7 +4,13 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  .comment-card {
+  background-color: rgb(246, 246, 250);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  .comment {
+    padding: 0 10px;
+    margin: 5px 0;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
