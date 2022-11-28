@@ -3,6 +3,10 @@ import { Location } from '@angular/common';
 import { BoardsStore } from '../../store/boards.store';
 import { BoardsService } from './services/boards.service';
 import { AuthUserStore } from '../../store/auth-user.store';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { firstValueFrom } from 'rxjs';
+import { IBoardWithUsers } from 'src/app/models/board.model';
 
 @Component({
   selector: 'app-boards-list',
@@ -16,7 +20,8 @@ export class BoardsListComponent implements OnInit {
     private boardsService: BoardsService,
     private boardsStore: BoardsStore,
     private location: Location,
-    private authUserStore: AuthUserStore
+    private authUserStore: AuthUserStore,
+    private matDialog: MatDialog
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -28,9 +33,13 @@ export class BoardsListComponent implements OnInit {
     await this.boardsService.getBoardsByUserId();
   }
 
-  public async deleteBoard(id: string): Promise<void> {
-    if (confirm('Are you sure you want to delete this board')) {
-      await this.boardsService.deleteBoard(id);
-    }
+  public async deleteBoard(board: IBoardWithUsers): Promise<void> {
+    const shouldDelete = await firstValueFrom(
+      this.matDialog.open(ConfirmDialogComponent).afterClosed()
+    );
+
+    if (!shouldDelete) return;
+
+    await this.boardsService.deleteBoard(board.id);
   }
 }

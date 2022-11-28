@@ -1,4 +1,11 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  OnInit,
+  ChangeDetectorRef,
+  AfterContentChecked,
+} from '@angular/core';
 import { UiComponent } from 'src/app/abstract/ui-component.component';
 import { ITaskComment } from 'src/app/models/task.model';
 import { AuthUserStore } from 'src/app/store/auth-user.store';
@@ -8,8 +15,12 @@ import { CommentsService } from '../../services/comments.service';
   selector: 'app-comments-list',
   templateUrl: './comments-list.component.html',
   styleUrls: ['./comments-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommentsListComponent extends UiComponent {
+export class CommentsListComponent
+  extends UiComponent
+  implements OnInit, AfterContentChecked
+{
   @Input() taskId!: string;
   @Input() comments!: ITaskComment[];
   public authUserId = this.authUserStore.authUser?.id;
@@ -18,9 +29,14 @@ export class CommentsListComponent extends UiComponent {
 
   constructor(
     private commentsService: CommentsService,
-    private authUserStore: AuthUserStore
+    private authUserStore: AuthUserStore,
+    private cdRef: ChangeDetectorRef
   ) {
     super();
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdRef.detectChanges();
   }
 
   async ngOnInit(): Promise<void> {

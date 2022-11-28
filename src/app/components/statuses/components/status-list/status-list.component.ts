@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { takeUntil } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { firstValueFrom, takeUntil } from 'rxjs';
 import { UiComponent } from 'src/app/abstract/ui-component.component';
 import { IStatus } from 'src/app/models/status.model';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { StatusesStore } from 'src/app/store/statuses.store';
 import { ColumnsService } from '../../../boards/components/board/services/columns.service';
 import { DragAndDropService } from '../../../boards/components/board/services/drag-and-drop.service';
@@ -25,7 +27,8 @@ export class StatusListComponent extends UiComponent {
     private statusService: StatusService,
     private statusesStore: StatusesStore,
     private dragAndDropService: DragAndDropService,
-    private columnsService: ColumnsService
+    private columnsService: ColumnsService,
+    private matDialog: MatDialog
   ) {
     super();
   }
@@ -49,6 +52,12 @@ export class StatusListComponent extends UiComponent {
   }
 
   public async deleteStatus(status: string): Promise<void> {
+    const shouldDelete = await firstValueFrom(
+      this.matDialog.open(ConfirmDialogComponent).afterClosed()
+    );
+
+    if (!shouldDelete) return;
+
     await this.statusService.deleteStatus(
       this.statuses.find((s) => s.title === status)?.id as string
     );

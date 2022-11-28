@@ -1,14 +1,19 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BaseFormComponent } from '../../abstract/base-form.component';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { ITask } from '../../models/task.model';
 import { TasksService } from './services/tasks.service';
 import { StatusesStore } from '../../store/statuses.store';
 import { IStatus } from '../../models/status.model';
 import { TasksStore } from '../../store/tasks.store';
-import { takeUntil } from 'rxjs';
+import { firstValueFrom, takeUntil } from 'rxjs';
 import { IUserSearchResult } from '../../models/user-search-result.model';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-task',
@@ -20,7 +25,7 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
   public status!: IStatus;
   public allStatuses!: IStatus[];
   public task!: ITask;
-  public get taskUsersIds(): string[] {    
+  public get taskUsersIds(): string[] {
     return this.task.users.map(({ id }) => id);
   }
 
@@ -30,7 +35,8 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
     private taskService: TasksService,
     private statusesStore: StatusesStore,
     private tasksStore: TasksStore,
-    private dialogRef: MatDialogRef<TaskComponent>
+    private dialogRef: MatDialogRef<TaskComponent>,
+    private matDialog: MatDialog
   ) {
     super();
   }
@@ -93,8 +99,14 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
   }
 
   public async deleteTask(): Promise<void> {
-    if (!confirm('Are you sure you want to delete this  task?')) return;
+    const shouldDelete = await firstValueFrom(
+      this.matDialog.open(ConfirmDialogComponent).afterClosed()
+    );
+
+    if (!shouldDelete) return;
+
     await this.taskService.deleteTask(this.task.id);
+
     this.dialogRef.close();
   }
 }

@@ -17,7 +17,7 @@
       <mat-card-actions class="delete-icon">
         <mat-icon
           *ngIf="authUserId === board.ownerId"
-          (click)="deleteBoard(board.id); $event.stopPropagation()"
+          (click)="deleteBoard(board); $event.stopPropagation()"
           >close</mat-icon
         >
       </mat-card-actions>
