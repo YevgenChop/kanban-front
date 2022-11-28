@@ -15,7 +15,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ColumnsService } from './services/columns.service';
 import { DragAndDropService } from './services/drag-and-drop.service';
-import { SidenavService } from 'src/app/components/sidenav/services/sidenav.service';
+import { SidenavService } from '../../../../components/sidenav/services/sidenav.service';
 
 @Component({
   selector: 'app-board',

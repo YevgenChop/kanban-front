@@ -4,9 +4,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
-import { IStatus } from 'src/app/models/status.model';
-import { ITask } from 'src/app/models/task.model';
-import { AuthUserStore } from 'src/app/store/auth-user.store';
+import { ITask } from '../../../../../models/task.model';
 
 @Injectable({
   providedIn: 'root',

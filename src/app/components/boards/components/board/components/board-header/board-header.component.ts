@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil } from 'rxjs';
-import { UiComponent } from 'src/app/abstract/ui-component.component';
-import { NewTaskComponent } from 'src/app/components/tasks/components/new-task/new-task.component';
-import { TaskComponent } from 'src/app/components/tasks/task.component';
-import { IBoardWithUsers } from 'src/app/models/board.model';
+import { UiComponent } from '../../../../../../abstract/ui-component.component';
+import { NewTaskComponent } from '../../../../../../components/tasks/components/new-task/new-task.component';
+import { TaskComponent } from '../../../../../../components/tasks/task.component';
+import { IBoardWithUsers } from '../../../../../../models/board.model';
 import { EditBoardComponent } from '../../../edit-board/edit-board.component';
 import { StatusDialogComponent } from '../../../../../statuses/status-dialog.component';
 

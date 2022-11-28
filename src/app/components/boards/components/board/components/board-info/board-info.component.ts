@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IBoardWithUsers } from 'src/app/models/board.model';
+import { IBoardWithUsers } from '../../../../../../models/board.model';
 
 @Component({
   selector: 'app-board-info',

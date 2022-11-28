@@ -8,7 +8,7 @@ import { NewBoardComponent } from './components/new-board/new-board.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
 import { BoardHeaderComponent } from './components/board/components/board-header/board-header.component';
 import { TaskModule } from '../tasks/task.module';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { StatusModule } from '../statuses/status.module';
 import { BoardInfoComponent } from './components/board/components/board-info/board-info.component';
 

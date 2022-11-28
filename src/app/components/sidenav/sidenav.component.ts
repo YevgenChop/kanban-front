@@ -8,7 +8,7 @@ import {
 import { MatDrawer } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs';
-import { UiComponent } from 'src/app/abstract/ui-component.component';
+import { UiComponent } from '../../abstract/ui-component.component';
 import { AuthUserStore } from '../../store/auth-user.store';
 import { AuthService } from '../auth/services/auth.service';
 import { SidenavService } from './services/sidenav.service';

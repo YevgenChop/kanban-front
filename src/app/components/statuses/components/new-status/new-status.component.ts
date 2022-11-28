@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { BaseFormComponent } from 'src/app/abstract/base-form.component';
+import { BaseFormComponent } from '../../../../abstract/base-form.component';
 import { StatusService } from '../../services/status.service';
 
 @Component({

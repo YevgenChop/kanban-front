@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BaseFormComponent } from 'src/app/abstract/base-form.component';
+import { BaseFormComponent } from '../../../../../../abstract/base-form.component';
 import { CommentsService } from '../../services/comments.service';
 
 @Component({

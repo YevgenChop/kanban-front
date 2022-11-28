@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { firstValueFrom, takeUntil } from 'rxjs';
-import { UiComponent } from 'src/app/abstract/ui-component.component';
-import { IStatus } from 'src/app/models/status.model';
-import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
-import { StatusesStore } from 'src/app/store/statuses.store';
+import { UiComponent } from '../../../..//abstract/ui-component.component';
+import { IStatus } from '../../../..//models/status.model';
+import { ConfirmDialogComponent } from '../../../..//shared/confirm-dialog/confirm-dialog.component';
+import { StatusesStore } from '../../../..//store/statuses.store';
 import { ColumnsService } from '../../../boards/components/board/services/columns.service';
 import { DragAndDropService } from '../../../boards/components/board/services/drag-and-drop.service';
 import { StatusService } from '../../services/status.service';

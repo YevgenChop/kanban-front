@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { IStatus } from 'src/app/models/status.model';
-import { ITask } from 'src/app/models/task.model';
-import { AuthUserStore } from 'src/app/store/auth-user.store';
+import { IStatus } from '../../../../../models/status.model';
+import { ITask } from '../../../../../models/task.model';
+import { AuthUserStore } from '../../../../../store/auth-user.store';
 
 @Injectable({
   providedIn: 'root',

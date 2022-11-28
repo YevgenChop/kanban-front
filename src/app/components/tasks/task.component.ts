@@ -13,7 +13,7 @@ import { IStatus } from '../../models/status.model';
 import { TasksStore } from '../../store/tasks.store';
 import { firstValueFrom, takeUntil } from 'rxjs';
 import { IUserSearchResult } from '../../models/user-search-result.model';
-import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-task',

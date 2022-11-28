@@ -6,9 +6,9 @@ import {
   ChangeDetectorRef,
   AfterContentChecked,
 } from '@angular/core';
-import { UiComponent } from 'src/app/abstract/ui-component.component';
-import { ITaskComment } from 'src/app/models/task.model';
-import { AuthUserStore } from 'src/app/store/auth-user.store';
+import { UiComponent } from '../../../../../../abstract/ui-component.component';
+import { ITaskComment } from '../../../../../../models/task.model';
+import { AuthUserStore } from '../../../../../../store/auth-user.store';
 import { CommentsService } from '../../services/comments.service';
 
 @Component({

@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { BaseFormComponent } from 'src/app/abstract/base-form.component';
+import { BaseFormComponent } from '../../../../../../abstract/base-form.component';
 import { CommentsService } from '../../services/comments.service';
 
 @Component({
