@@ -8,13 +8,14 @@ import { TasksStore } from '../../../../store/tasks.store';
 import { TasksService } from '../../../tasks/services/tasks.service';
 import { StatusesStore } from '../../../../store/statuses.store';
 import { UiComponent } from '../../../../abstract/ui-component.component';
-import { Observable, of, takeUntil } from 'rxjs';
-import { IBoard, IBoardWithUsers } from '../../../../models/board.model';
+import { takeUntil } from 'rxjs';
+import { IBoardWithUsers } from '../../../../models/board.model';
 import { BoardsService } from '../../services/boards.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ColumnsService } from './services/columns.service';
 import { DragAndDropService } from './services/drag-and-drop.service';
+import { SidenavService } from 'src/app/components/sidenav/services/sidenav.service';
 
 @Component({
   selector: 'app-board',
@@ -49,12 +50,14 @@ export class BoardComponent extends UiComponent implements OnInit {
     private boardsService: BoardsService,
     private snackBar: MatSnackBar,
     private columnsService: ColumnsService,
-    private dragAndDropService: DragAndDropService
+    private dragAndDropService: DragAndDropService,
+    private sidenavService: SidenavService
   ) {
     super();
   }
 
   async ngOnInit(): Promise<void> {
+    this.sidenavService.close();
     await this.getData();
     this.subscribeToStatuses();
     this.subscribeToTasks();
