@@ -4,7 +4,7 @@ import { BoardsStore } from '../../store/boards.store';
 import { BoardsService } from './services/boards.service';
 import { AuthUserStore } from '../../store/auth-user.store';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { firstValueFrom } from 'rxjs';
 import { IBoardWithUsers } from '../../models/board.model';
 

@@ -1,9 +1,15 @@
-import { AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import {
+  AfterContentChecked,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { firstValueFrom, takeUntil } from 'rxjs';
 import { UiComponent } from '../../../..//abstract/ui-component.component';
 import { IStatus } from '../../../..//models/status.model';
-import { ConfirmDialogComponent } from '../../../..//shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { StatusesStore } from '../../../..//store/statuses.store';
 import { ColumnsService } from '../../../boards/components/board/services/columns.service';
 import { DragAndDropService } from '../../../boards/components/board/services/drag-and-drop.service';
@@ -13,9 +19,12 @@ import { StatusService } from '../../services/status.service';
   selector: 'app-status-list',
   templateUrl: './status-list.component.html',
   styleUrls: ['./status-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StatusListComponent extends UiComponent implements AfterContentChecked {
+export class StatusListComponent
+  extends UiComponent
+  implements AfterContentChecked
+{
   @Input() boardId!: string;
   @Input() getColumns!: () => string[];
 

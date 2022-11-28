@@ -57,17 +57,12 @@
       ></app-users-search>
 
       <h3>{{ selectedUsers.length ? "Assignees:" : "Unassigned" }}</h3>
-      <ul class="assigned-users" *ngIf="selectedUsers.length">
-        <li class="assigned-user" *ngFor="let user of selectedUsers">
-          <div>
-            <p class="username">{{ user.name }}</p>
-            <p class="email">{{ user.email }}</p>
-          </div>
-          <mat-icon class="delete-icon" (click)="unselectUser(user.id)"
-            >close</mat-icon
-          >
-        </li>
-      </ul>
+
+      <app-assigned-users
+        (unselectEvent)="unselectUser($event)"
+        [users]="selectedUsers"
+      ></app-assigned-users>
+      
     </div>
     <div class="buttons">
       <button type="submit" color="primary" mat-raised-button>Update</button>

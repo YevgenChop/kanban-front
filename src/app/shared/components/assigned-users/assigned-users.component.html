@@ -1,0 +1,11 @@
+<ul class="assigned-users" *ngIf="users.length">
+  <li class="assigned-user" *ngFor="let user of users">
+    <div>
+      <p class="username">{{ user.name }}</p>
+      <p class="email">{{ user.email }}</p>
+    </div>
+    <mat-icon class="delete-icon" (click)="handleClick(user.id)"
+      >close</mat-icon
+    >
+  </li>
+</ul>

@@ -1,0 +1,36 @@
+.assigned-users {
+    max-height: 250px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    border-radius: 8px;
+    .assigned-user {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: rgb(244, 244, 250);
+      .username,
+      .email {
+        margin: 0;
+      }
+      .username {
+        font-weight: 700;
+      }
+      .email {
+        font-size: 0.8rem;
+        color: rgb(115, 115, 115);
+      }
+      .delete-icon {
+        display: none;
+        cursor: pointer;
+      }
+      &:hover {
+        .delete-icon {
+          display: block;
+        }
+      }
+    }
+  }

@@ -61,17 +61,10 @@
           [skipUserIds]="selectedUsersIds"
         ></app-users-search>
 
-        <ul class="assigned-users" *ngIf="selectedUsers.length">
-          <li class="assigned-user" *ngFor="let user of selectedUsers">
-            <div>
-              <p class="username">{{ user.name }}</p>
-              <p class="email">{{ user.email }}</p>
-            </div>
-            <mat-icon class="delete-icon" (click)="unselectUser(user.id)"
-              >close</mat-icon
-            >
-          </li>
-        </ul>
+        <app-assigned-users
+          (unselectEvent)="unselectUser($event)"
+          [users]="selectedUsers"
+        ></app-assigned-users>
       </div>
       <button color="primary" type="submit" mat-raised-button>Create</button>
     </form>
