@@ -82,6 +82,11 @@ export class BoardComponent extends UiComponent implements OnInit {
           this.boardId,
           this.statuses.map(({ title }) => title)
         );
+
+        this.mappedTasks = this.columnsService.mapTasksToColumns(
+          this.statuses,
+          this.tasksStore.tasks
+        );
       });
   }
 
