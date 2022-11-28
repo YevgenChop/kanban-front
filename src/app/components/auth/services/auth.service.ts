@@ -1,21 +1,26 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { catchError, firstValueFrom, tap } from 'rxjs';
 import { IAuthUser } from '../../../models/auth-user.model';
-import { IUserAuthData } from '../../../models/user-auth-data.model';
+import { ILoginData, ISignupData } from '../../../models/sign-up-data.model';
 import { AuthUserStore } from '../../../store/auth-user.store';
+import { ErrorHandlingService } from '../../../shared/services/error-handling.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private authUserStore: AuthUserStore) {}
+  constructor(
+    private http: HttpClient,
+    private authUserStore: AuthUserStore,
+    private errorService: ErrorHandlingService
+  ) {}
 
-  public async signUp(data: IUserAuthData): Promise<void> {
+  public async signUp(data: ISignupData): Promise<void> {
     await firstValueFrom(
       this.http.post<void>(`${environment.apiUrl}/user`, data).pipe(
-        catchError(this.handleError),
+        catchError(this.errorService.handleError),
         tap(() => localStorage.setItem('unverifiedEmail', data.email))
       )
     );
@@ -26,7 +31,7 @@ export class AuthService {
       this.http
         .get<void>(`${environment.apiUrl}/auth/verify/?token=${token}`)
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap(() => localStorage.removeItem('unverifiedEmail'))
         )
     );
@@ -36,15 +41,15 @@ export class AuthService {
     await firstValueFrom(
       this.http
         .post<void>(`${environment.apiUrl}/auth/resend-email`, { email })
-        .pipe(catchError(this.handleError))
+        .pipe(catchError(this.errorService.handleError))
     );
   }
 
-  public async login(data: IUserAuthData): Promise<void> {
+  public async login(data: ILoginData): Promise<void> {
     await firstValueFrom(
       this.http
         .post<IAuthUser>(`${environment.apiUrl}/auth/login`, data)
-        .pipe(tap(this.handleAuth.bind(this)), catchError(this.handleError))
+        .pipe(tap(this.handleAuth.bind(this)), catchError(this.errorService.handleError))
     );
   }
 
@@ -66,17 +71,5 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.authUserStore.authUser$.next(null);
-  }
-
-  private handleError(error: HttpErrorResponse): Promise<never> {
-    let errorMessage = 'An unknown error occured...';
-
-    if (error && error.error.message) {
-      errorMessage = Array.isArray(error.error.message)
-        ? error.error.message.join(', ')
-        : error.error.message;
-    }
-
-    return Promise.reject(errorMessage);
   }
 }

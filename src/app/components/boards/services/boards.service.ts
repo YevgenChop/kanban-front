@@ -1,6 +1,7 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, tap } from 'rxjs';
+import { ErrorHandlingService } from '../../../shared/services/error-handling.service';
 import { environment } from '../../../../environments/environment';
 import {
   IBoard,
@@ -17,7 +18,8 @@ export class BoardsService {
   constructor(
     private http: HttpClient,
     private authUserStore: AuthUserStore,
-    private boardsStore: BoardsStore
+    private boardsStore: BoardsStore,
+    private errorService: ErrorHandlingService
   ) {}
 
   public getBoardsByOwnerId(limit = 100, offset = 0): Promise<IBoardWithUsers[]> {
@@ -28,7 +30,7 @@ export class BoardsService {
           `${environment.apiUrl}/board?ownerId=${id}&limit=${limit}&offset=${offset}`
         )
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap((boards) => this.boardsStore.boards$.next(boards))
         )
     );
@@ -42,7 +44,7 @@ export class BoardsService {
           `${environment.apiUrl}/board?userId=${id}&limit=${limit}&offset=${offset}`
         )
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap((boards) => this.boardsStore.boards$.next(boards))
         )
     );
@@ -51,7 +53,7 @@ export class BoardsService {
   public deleteBoard(id: string): Promise<void> {
     return firstValueFrom(
       this.http.delete<void>(`${environment.apiUrl}/board/${id}`).pipe(
-        catchError(this.handleError),
+        catchError(this.errorService.handleError),
         tap(() =>
           this.boardsStore.boards$.next(
             this.boardsStore.boards.filter((b) => b.id !== id)
@@ -66,7 +68,7 @@ export class BoardsService {
       this.http
         .post<IBoardWithUsers>(`${environment.apiUrl}/board`, { ...boardData })
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap((board) =>
             this.boardsStore.boards$.next([board, ...this.boardsStore.boards])
           )
@@ -86,7 +88,7 @@ export class BoardsService {
           usersIds,
         })
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap(() => {
             this.boardsStore.boards$.next(
               this.boardsStore.boards.map((b) =>
@@ -102,19 +104,7 @@ export class BoardsService {
     return firstValueFrom(
       this.http
         .get<IBoardWithUsers>(`${environment.apiUrl}/board/${id}`)
-        .pipe(catchError(this.handleError))
+        .pipe(catchError(this.errorService.handleError))
     );
-  }
-
-  private handleError(error: HttpErrorResponse): Promise<never> {
-    let errorMessage = 'An unknown error occured...';
-
-    if (error && error.error.message) {
-      errorMessage = Array.isArray(error.error.message)
-        ? error.error.message.join(', ')
-        : error.error.message;
-    }
-
-    return Promise.reject(errorMessage);
   }
 }

@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs';
 import { BaseFormComponent } from '../../../abstract/base-form.component';
 import { IUserSearchResult } from '../../../models/user-search-result.model';
-import { UsersService } from './users.service';
+import { UserService } from '../../../components/settings/services/user.service';
 
 @Component({
   selector: 'app-users-search',
@@ -16,7 +16,7 @@ export class UsersSearchComponent extends BaseFormComponent implements OnInit {
   @Input() skipUserIds?: string[];
   @Output() userSelectedEvent = new EventEmitter<IUserSearchResult>();
 
-  constructor(private fb: FormBuilder, private usersService: UsersService) {
+  constructor(private fb: FormBuilder, private userService: UserService) {
     super();
   }
 
@@ -37,7 +37,7 @@ export class UsersSearchComponent extends BaseFormComponent implements OnInit {
 
   private async setUsers(term: string): Promise<void> {
     this.isLoading = true;
-    this.users = await this.usersService.getUsers({
+    this.users = await this.userService.getUsers({
       term,
       boardId: this.boardId,
       skipUserIds: this.skipUserIds,

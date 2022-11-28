@@ -1,21 +1,20 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, tap } from 'rxjs';
 import { TasksStore } from '../../../../../store/tasks.store';
-import {
-  ICreateTaskData,
-  ITask,
-  ITaskComment,
-  IUpdateTaskData,
-} from '../../../../../models/task.model';
+import { ITask, ITaskComment } from '../../../../../models/task.model';
 import { environment } from '../../../../../../environments/environment';
-import { IStatus } from '../../../../../models/status.model';
+import { ErrorHandlingService } from '../../../../../shared/services/error-handling.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommentsService {
-  constructor(private http: HttpClient, private tasksStore: TasksStore) {}
+  constructor(
+    private http: HttpClient,
+    private tasksStore: TasksStore,
+    private errorService: ErrorHandlingService
+  ) {}
 
   public async leaveComment(
     taskId: string,
@@ -27,26 +26,15 @@ export class CommentsService {
           taskId,
           commentText,
         })
-        .pipe(catchError(this.handleError))
+        .pipe(catchError(this.errorService.handleError))
     );
   }
 
   public async deleteComment(commentId: string, taskId: string): Promise<void> {
     await firstValueFrom(
       this.http.delete<void>(`${environment.apiUrl}/comment/${commentId}`).pipe(
-        tap(() =>
-          this.tasksStore.tasks$.next(
-            this.tasksStore.tasks.map((t) =>
-              t.id === taskId
-                ? {
-                    ...t,
-                    comments: t.comments.filter((c) => c.id !== commentId),
-                  }
-                : t
-            )
-          )
-        ),
-        catchError(this.handleError)
+        tap(() => this.handleDelete(taskId, commentId)),
+        catchError(this.errorService.handleError)
       )
     );
   }
@@ -62,21 +50,8 @@ export class CommentsService {
           commentText,
         })
         .pipe(
-          tap(() =>
-            this.tasksStore.tasks$.next(
-              this.tasksStore.tasks.map((t) =>
-                t.id === taskId
-                  ? {
-                      ...t,
-                      comments: t.comments.map((c) =>
-                        c.id === commentId ? { ...c, commentText } : c
-                      ),
-                    }
-                  : t
-              )
-            )
-          ),
-          catchError(this.handleError)
+          tap(() => this.handleUpdate(taskId, commentId, commentText)),
+          catchError(this.errorService.handleError)
         )
     );
   }
@@ -93,20 +68,36 @@ export class CommentsService {
               )
             )
           ),
-          catchError(this.handleError)
+          catchError(this.errorService.handleError)
         )
     );
   }
 
-  private handleError(error: HttpErrorResponse): Promise<never> {
-    let errorMessage = 'An unknown error occured...';
+  private handleDelete(taskId: string, commentId: string): void {
+    this.tasksStore.tasks$.next(
+      this.tasksStore.tasks.map((t) =>
+        t.id === taskId
+          ? {
+              ...t,
+              comments: t.comments.filter((c) => c.id !== commentId),
+            }
+          : t
+      )
+    );
+  }
 
-    if (error && error.error.message) {
-      errorMessage = Array.isArray(error.error.message)
-        ? error.error.message.join(', ')
-        : error.error.message;
-    }
+  private handleUpdate(
+    taskId: string,
+    commentId: string,
+    commentText: string
+  ): void {
+    const { comments } = this.tasksStore.tasks.find(
+      (t) => t.id === taskId
+    ) as ITask;
+    const comment = comments.find((c) => c.id === commentId) as ITaskComment;
 
-    return Promise.reject(errorMessage);
+    comment.commentText = commentText;
+
+    this.tasksStore.tasks$.next(this.tasksStore.tasks);
   }
 }

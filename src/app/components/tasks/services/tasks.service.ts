@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, tap } from 'rxjs';
 import { TasksStore } from '../../../store/tasks.store';
@@ -11,6 +11,7 @@ import { environment } from '../../../../environments/environment';
 import { IStatus } from '../../../models/status.model';
 import { StatusesStore } from '../../../store/statuses.store';
 import { IUserSearchResult } from '../../../models/user-search-result.model';
+import { ErrorHandlingService } from '../../../shared/services/error-handling.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class TasksService {
   constructor(
     private http: HttpClient,
     private tasksStore: TasksStore,
-    private statusesStore: StatusesStore
+    private statusesStore: StatusesStore,
+    private errorService: ErrorHandlingService
   ) {}
 
   public getTasksByBoardId(boardId: string): Promise<ITask[]> {
@@ -27,7 +29,7 @@ export class TasksService {
       this.http
         .get<ITask[]>(`${environment.apiUrl}/task?boardId=${boardId}`)
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap((tasks) => this.tasksStore.tasks$.next(tasks))
         )
     );
@@ -36,7 +38,7 @@ export class TasksService {
   public createTask(taskData: ICreateTaskData): Promise<ITask> {
     return firstValueFrom(
       this.http.post<ITask>(`${environment.apiUrl}/task`, { ...taskData }).pipe(
-        catchError(this.handleError),
+        catchError(this.errorService.handleError),
         tap((task) =>
           this.tasksStore.tasks$.next([task, ...this.tasksStore.tasks])
         )
@@ -55,7 +57,7 @@ export class TasksService {
           description,
         })
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap(() =>
             this.tasksStore.tasks$.next(
               this.tasksStore.tasks.map((t) =>
@@ -78,7 +80,7 @@ export class TasksService {
       this.http
         .get<IStatus[]>(`${environment.apiUrl}/status?boardId=${boardId}`)
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap((statuses) => this.statusesStore.statuses$.next(statuses))
         )
     );
@@ -91,7 +93,7 @@ export class TasksService {
           userId,
         })
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap(() =>
             this.tasksStore.tasks$.next(
               this.tasksStore.tasks.map((t) =>
@@ -115,7 +117,7 @@ export class TasksService {
           userId: user.id,
         })
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap(() =>
             this.tasksStore.tasks$.next(
               this.tasksStore.tasks.map((t) =>
@@ -134,7 +136,7 @@ export class TasksService {
           statusId,
         })
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap(() =>
             this.tasksStore.tasks$.next(
               this.tasksStore.tasks.map((t) =>
@@ -149,7 +151,7 @@ export class TasksService {
   public async deleteTask(taskId: string): Promise<void> {
     await firstValueFrom(
       this.http.delete<void>(`${environment.apiUrl}/task/${taskId}`).pipe(
-        catchError(this.handleError),
+        catchError(this.errorService.handleError),
         tap(() =>
           this.tasksStore.tasks$.next(
             this.tasksStore.tasks.filter((t) => t.id !== taskId)
@@ -157,17 +159,5 @@ export class TasksService {
         )
       )
     );
-  }
-
-  private handleError(error: HttpErrorResponse): Promise<never> {
-    let errorMessage = 'An unknown error occured...';
-
-    if (error && error.error.message) {
-      errorMessage = Array.isArray(error.error.message)
-        ? error.error.message.join(', ')
-        : error.error.message;
-    }
-
-    return Promise.reject(errorMessage);
   }
 }

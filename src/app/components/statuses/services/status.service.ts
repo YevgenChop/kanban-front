@@ -1,6 +1,7 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, tap } from 'rxjs';
+import { ErrorHandlingService } from '../../../shared/services/error-handling.service';
 import { environment } from '../../../../environments/environment';
 import { ICreateStatusData, IStatus } from '../../../models/status.model';
 import { StatusesStore } from '../../../store/statuses.store';
@@ -9,14 +10,18 @@ import { StatusesStore } from '../../../store/statuses.store';
   providedIn: 'root',
 })
 export class StatusService {
-  constructor(private http: HttpClient, private statusesStore: StatusesStore) {}
+  constructor(
+    private http: HttpClient,
+    private statusesStore: StatusesStore,
+    private errorService: ErrorHandlingService
+  ) {}
 
   public createStatus(statusData: ICreateStatusData): Promise<IStatus> {
     return firstValueFrom(
       this.http
         .post<IStatus>(`${environment.apiUrl}/status`, { ...statusData })
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap((status) => {
             this.statusesStore.statuses$.next([
               status,
@@ -30,7 +35,7 @@ export class StatusService {
   public deleteStatus(id: string): Promise<void> {
     return firstValueFrom(
       this.http.delete<void>(`${environment.apiUrl}/status/${id}`).pipe(
-        catchError(this.handleError),
+        catchError(this.errorService.handleError),
         tap(() => {
           this.statusesStore.statuses$.next(
             this.statusesStore.statuses.filter((s) => s.id !== id)
@@ -48,7 +53,7 @@ export class StatusService {
       this.http
         .patch<void>(`${environment.apiUrl}/status/${id}`, statusData)
         .pipe(
-          catchError(this.handleError),
+          catchError(this.errorService.handleError),
           tap(() => {
             this.statusesStore.statuses$.next(
               this.statusesStore.statuses.map((s) =>
@@ -58,17 +63,5 @@ export class StatusService {
           })
         )
     );
-  }
-
-  private handleError(error: HttpErrorResponse): Promise<never> {
-    let errorMessage = 'An unknown error occured...';
-
-    if (error && error.error.message) {
-      errorMessage = Array.isArray(error.error.message)
-        ? error.error.message.join(', ')
-        : error.error.message;
-    }
-
-    return Promise.reject(errorMessage);
   }
 }
