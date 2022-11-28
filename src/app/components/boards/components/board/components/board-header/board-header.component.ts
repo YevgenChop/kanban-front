@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil } from 'rxjs';
-import { UiComponent } from '../../../../../../abstract/ui-component.component';
+import { firstValueFrom } from 'rxjs';
 import { NewTaskComponent } from '../../../../../../components/tasks/components/new-task/new-task.component';
 import { TaskComponent } from '../../../../../../components/tasks/task.component';
 import { IBoardWithUsers } from '../../../../../../models/board.model';
@@ -13,15 +12,13 @@ import { StatusDialogComponent } from '../../../../../statuses/status-dialog.com
   templateUrl: './board-header.component.html',
   styleUrls: ['./board-header.component.scss'],
 })
-export class BoardHeaderComponent extends UiComponent {
+export class BoardHeaderComponent {
   @Input() board!: IBoardWithUsers;
   @Input() columns!: string[];
   @Input() getColumns!: () => string[];
   @Output() updateBoardEvent = new EventEmitter<void>();
 
-  constructor(private dialog: MatDialog) {
-    super();
-  }
+  constructor(private dialog: MatDialog) {}
 
   public openTaskDialog(taskId: string): void {
     this.dialog.open(TaskComponent, { maxWidth: '100vw', data: taskId });
@@ -45,13 +42,15 @@ export class BoardHeaderComponent extends UiComponent {
     });
   }
 
-  public openEditBoardDialog(): void {
-    this.dialog
-      .open(EditBoardComponent, { maxWidth: '100vw', data: this.board })
-      .afterClosed()
-      .pipe(takeUntil(this.notifier$))
-      .subscribe(
-        async ({ updated }) => updated && this.updateBoardEvent.emit()
-      );
+  public async openEditBoardDialog(): Promise<void> {
+    const shouldUpdate = await firstValueFrom(
+      this.dialog
+        .open(EditBoardComponent, { maxWidth: '100vw', data: this.board })
+        .afterClosed()
+    );
+
+    if (!shouldUpdate) return;
+
+    this.updateBoardEvent.emit();
   }
 }

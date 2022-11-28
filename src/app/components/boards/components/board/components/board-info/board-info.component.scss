@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  margin: 20px auto;
+  margin: 0 auto 20px;
   max-width: 90%;
   gap: 20px;
   cursor: default;
@@ -33,9 +33,17 @@
   .stats {
     display: flex;
     flex-direction: column;
+    p {
+      padding: 5px;
+      margin: 0;
+    }
   }
   .users {
     text-align: right;
+    p {
+      padding: 5px;
+      margin: 0;
+    }
   }
 }
 

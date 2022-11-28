@@ -6,7 +6,7 @@
       <div *ngIf="error" class="form-error">
         {{ error }}
       </div>
-      <mat-form-field class="form-field" appearance="fill">
+      <mat-form-field class="form-field">
         <mat-label>Title</mat-label>
         <input
           matInput
@@ -56,17 +56,18 @@
         [skipUserIds]="selectedUsersIds"
       ></app-users-search>
 
-      <div class="assigned-users" *ngIf="selectedUsers.length">
-        <mat-card class="assigned-user" *ngFor="let user of selectedUsers">
+      <h3>{{ selectedUsers.length ? "Assignees:" : "Unassigned" }}</h3>
+      <ul class="assigned-users" *ngIf="selectedUsers.length">
+        <li class="assigned-user" *ngFor="let user of selectedUsers">
           <div>
-            <p>{{ user.name }}</p>
-            <p>{{ user.email }}</p>
+            <p class="username">{{ user.name }}</p>
+            <p class="email">{{ user.email }}</p>
           </div>
           <mat-icon class="delete-icon" (click)="unselectUser(user.id)"
             >close</mat-icon
           >
-        </mat-card>
-      </div>
+        </li>
+      </ul>
     </div>
     <div class="buttons">
       <button type="submit" color="primary" mat-raised-button>Update</button>

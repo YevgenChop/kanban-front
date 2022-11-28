@@ -30,5 +30,8 @@ export class NewStatusComponent extends BaseFormComponent {
         boardId: this.boardId,
       });
     });
+
+    this.componentForm.reset();
+    this.componentForm.controls['title'].setErrors(null);
   }
 }

@@ -6,7 +6,8 @@
   >
   </app-board-header>
 
-  <app-board-info *ngIf="board"
+  <app-board-info
+    *ngIf="board"
     [board]="board"
     [numberOfTasks]="numberOfTasks"
     [numberOfDoneTasks]="mappedTasks && mappedTasks['Done'].length"
@@ -44,8 +45,8 @@
         class="task-card"
         *ngFor="let task of mappedTasks[column]"
       >
-        <mat-card-title>{{ task.title }}</mat-card-title>
-        <mat-card-content>
+        <h3>{{ task.title }}</h3>
+        <div>
           <div>
             <p>Users:</p>
             <span>{{ getAssignedUsersString(task.users) }}</span>
@@ -53,7 +54,7 @@
           <p>
             Date added: <span>{{ task.createdDate | date: "shortDate" }}</span>
           </p>
-        </mat-card-content>
+        </div>
       </div>
     </div>
   </div>

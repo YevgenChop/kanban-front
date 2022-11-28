@@ -1,16 +1,18 @@
-input {
-  background-color: rgb(228, 238, 238);
-}
+form {
+  margin: 0;
+  padding: 0;
+  input {
+    width: 100%;
+    height: 20px;
+    outline: none;
+    border: none;
+  }
 
-input:focus {
-  width: 100%;
-  height: 40px;
-  outline: none;
-  border: none;
-  background-color: rgb(230, 232, 232);
+  input:focus {
+    background-color: inherit;
+  }
+  span {
+    font-size: 0.7rem;
+    color: blue;
+  }
 }
-span {
-  font-size: 0.7rem;
-  color: blue;
-}
-

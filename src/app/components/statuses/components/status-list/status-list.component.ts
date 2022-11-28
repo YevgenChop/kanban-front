@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { firstValueFrom, takeUntil } from 'rxjs';
 import { UiComponent } from '../../../..//abstract/ui-component.component';
@@ -13,8 +13,9 @@ import { StatusService } from '../../services/status.service';
   selector: 'app-status-list',
   templateUrl: './status-list.component.html',
   styleUrls: ['./status-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StatusListComponent extends UiComponent {
+export class StatusListComponent extends UiComponent implements AfterContentChecked {
   @Input() boardId!: string;
   @Input() getColumns!: () => string[];
 
@@ -28,9 +29,13 @@ export class StatusListComponent extends UiComponent {
     private statusesStore: StatusesStore,
     private dragAndDropService: DragAndDropService,
     private columnsService: ColumnsService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private cdRef: ChangeDetectorRef
   ) {
     super();
+  }
+  ngAfterContentChecked(): void {
+    this.cdRef.detectChanges();
   }
 
   ngOnInit(): void {

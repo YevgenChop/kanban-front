@@ -6,6 +6,7 @@
   [cdkDropListData]="columns"
   class="example-list"
   (cdkDropListDropped)="drop($event)"
+  #statusList [scrollTop]="statusList.scrollHeight"
 >
   <div
     class="example-box"
@@ -28,9 +29,7 @@
     ></app-edit-status>
 
     <div class="icons" *ngIf="isCustom(column)">
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_horizontal</mat-icon>
-      </button>
+      <mat-icon [matMenuTriggerFor]="menu">more_horizontal</mat-icon>
       <mat-menu #menu="matMenu">
         <button (click)="switchEditModeOn(column)" mat-menu-item>
           <mat-icon>edit</mat-icon>

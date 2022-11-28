@@ -42,7 +42,7 @@ export class EditBoardComponent extends BaseFormComponent {
         ...this.componentForm.getRawValue(),
         usersIds: this.selectedUsersIds,
       });
-      this.dialogRef.close({ updated: true });
+      this.dialogRef.close(true);
     });
   }
 
