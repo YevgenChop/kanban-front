@@ -48,10 +48,10 @@ export class BoardComponent extends UiComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private boardsService: BoardsService,
-    private snackBar: MatSnackBar,
     private columnsService: ColumnsService,
     private dragAndDropService: DragAndDropService,
-    private sidenavService: SidenavService
+    private sidenavService: SidenavService,
+    private snackbar: MatSnackBar
   ) {
     super();
   }
@@ -64,9 +64,15 @@ export class BoardComponent extends UiComponent implements OnInit {
   }
 
   private async getData(): Promise<void> {
-    this.getBoard();
-    await this.tasksService.getTasksByBoardId(this.boardId);
-    await this.tasksService.getTaskStatuses(this.boardId);
+    try {
+      await this.getBoard();
+      await this.tasksService.getTasksByBoardId(this.boardId);
+      await this.tasksService.getTaskStatuses(this.boardId);
+    } catch (error) {
+      this.snackbar.open(error as string, undefined, {
+        duration: 3000,
+      });
+    }
   }
 
   public async getBoard(): Promise<void> {
@@ -78,6 +84,7 @@ export class BoardComponent extends UiComponent implements OnInit {
       .pipe(takeUntil(this.notifier$))
       .subscribe((statuses) => {
         this.statuses = statuses;
+
         this.columns = this.columnsService.getColumns(
           this.boardId,
           this.statuses.map(({ title }) => title)
@@ -138,7 +145,7 @@ export class BoardComponent extends UiComponent implements OnInit {
   ) {
     this.dragAndDropService.putTaskBack(event);
 
-    this.snackBar.open('Something went wrong...', undefined, {
+    this.snackbar.open('Something went wrong...', undefined, {
       duration: 3000,
     });
   }

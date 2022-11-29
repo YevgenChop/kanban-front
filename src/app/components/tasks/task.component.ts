@@ -14,6 +14,7 @@ import { TasksStore } from '../../store/tasks.store';
 import { firstValueFrom, takeUntil } from 'rxjs';
 import { IUserSearchResult } from '../../models/user-search-result.model';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-task',
@@ -36,7 +37,8 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
     private statusesStore: StatusesStore,
     private tasksStore: TasksStore,
     private dialogRef: MatDialogRef<TaskComponent>,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private snackbar: MatSnackBar
   ) {
     super();
   }
@@ -87,15 +89,27 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
   }
 
   public async unassignTask(userId: string): Promise<void> {
-    await this.taskService.unassignTask(userId, this.task.id);
+    try {
+      await this.taskService.unassignTask(userId, this.task.id);
+    } catch (error) {
+      this.handleError(error as string);
+    }
   }
 
   public async assignTask(user: IUserSearchResult): Promise<void> {
-    await this.taskService.assignTask(user, this.task.id);
+    try {
+      await this.taskService.assignTask(user, this.task.id);
+    } catch (error) {
+      this.handleError(error as string);
+    }
   }
 
   public async changeStatus(): Promise<void> {
-    await this.taskService.changeStatus(this.task.id, this.status.id);
+    try {
+      await this.taskService.changeStatus(this.task.id, this.status.id);
+    } catch (error) {
+      this.handleError(error as string);
+    }
   }
 
   public async deleteTask(): Promise<void> {
@@ -105,8 +119,15 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
 
     if (!shouldDelete) return;
 
-    await this.taskService.deleteTask(this.task.id);
+    try {
+      await this.taskService.deleteTask(this.task.id);
+      this.dialogRef.close();
+    } catch (error) {
+      this.handleError(error as string);
+    }
+  }
 
-    this.dialogRef.close();
+  private handleError(error: string): void {
+    this.snackbar.open(error, undefined, { duration: 3000 });
   }
 }

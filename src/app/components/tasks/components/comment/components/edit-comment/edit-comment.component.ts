@@ -43,8 +43,7 @@ export class EditCommentComponent extends BaseFormComponent {
     if (this.error) {
       return this.openSnackbar(this.error);
     }
-
-    this.openSnackbar('Comment updated');
+    
     this.updatedEvent.emit();
   }
 
