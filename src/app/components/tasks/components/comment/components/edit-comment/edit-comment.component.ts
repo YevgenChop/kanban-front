@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../../../../../shared/services/snackbar.service';
 import { BaseFormComponent } from '../../../../../../abstract/base-form.component';
 import { CommentsService } from '../../services/comments.service';
 
@@ -18,7 +18,7 @@ export class EditCommentComponent extends BaseFormComponent {
   constructor(
     private fb: FormBuilder,
     private commentService: CommentsService,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     super();
   }
@@ -41,14 +41,10 @@ export class EditCommentComponent extends BaseFormComponent {
     });
 
     if (this.error) {
-      return this.openSnackbar(this.error);
+      this.snackbarService.open(this.error);
     }
     
     this.updatedEvent.emit();
-  }
-
-  public openSnackbar(message: string): void {
-    this.snackbar.open(message, undefined, { duration: 3000 });
   }
 
   public cancel(): void {

@@ -14,7 +14,7 @@ import { TasksStore } from '../../store/tasks.store';
 import { firstValueFrom, takeUntil } from 'rxjs';
 import { IUserSearchResult } from '../../models/user-search-result.model';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-task',
@@ -38,7 +38,7 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
     private tasksStore: TasksStore,
     private dialogRef: MatDialogRef<TaskComponent>,
     private matDialog: MatDialog,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     super();
   }
@@ -128,6 +128,6 @@ export class TaskComponent extends BaseFormComponent implements OnInit {
   }
 
   private handleError(error: string): void {
-    this.snackbar.open(error, undefined, { duration: 3000 });
+    this.snackbarService.open(error);
   }
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../shared/services/snackbar.service';
 import { BaseFormComponent } from '../../abstract/base-form.component';
 import { IUpdateUserData } from '../../models/auth-user.model';
 import { AuthUserStore } from '../../store/auth-user.store';
@@ -18,7 +18,7 @@ export class SettingsComponent extends BaseFormComponent {
     private fb: FormBuilder,
     private authUserStore: AuthUserStore,
     private userService: UserService,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     super();
   }
@@ -39,16 +39,10 @@ export class SettingsComponent extends BaseFormComponent {
     await super.handleSubmit(
       async () => {
         await this.userService.updateUser(this.getDataForSubmit());
-        this.openSnackbar();
+        this.snackbarService.open('Your data has been updated');
       },
       { reset: false }
     );
-  }
-
-  private openSnackbar(): void {
-    this.snackbar.open('Your data has been updated', undefined, {
-      duration: 3000,
-    });
   }
 
   private getDataForSubmit(): IUpdateUserData {

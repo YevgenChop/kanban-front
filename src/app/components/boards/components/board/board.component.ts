@@ -12,10 +12,10 @@ import { firstValueFrom, takeUntil } from 'rxjs';
 import { IBoardWithUsers } from '../../../../models/board.model';
 import { BoardsService } from '../../services/boards.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ColumnsService } from './services/columns.service';
 import { DragAndDropService } from './services/drag-and-drop.service';
 import { SidenavService } from '../../../../components/sidenav/services/sidenav.service';
+import { SnackbarService } from '../../../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-board',
@@ -52,7 +52,7 @@ export class BoardComponent extends UiComponent implements OnInit {
     private columnsService: ColumnsService,
     private dragAndDropService: DragAndDropService,
     private sidenavService: SidenavService,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     super();
   }
@@ -74,9 +74,7 @@ export class BoardComponent extends UiComponent implements OnInit {
       await this.tasksService.getTasksByBoardId(this.boardId);
       await this.tasksService.getTaskStatuses(this.boardId);
     } catch (error) {
-      this.snackbar.open(error as string, undefined, {
-        duration: 3000,
-      });
+      this.snackbarService.open(error as string);
     }
   }
 
@@ -160,9 +158,6 @@ export class BoardComponent extends UiComponent implements OnInit {
     event: CdkDragDrop<{ tasks: ITask[]; statusTitle: string }>
   ) {
     this.dragAndDropService.putTaskBack(event);
-
-    this.snackbar.open('Something went wrong...', undefined, {
-      duration: 3000,
-    });
+    this.snackbarService.open('Something went wrong...');
   }
 }

@@ -2,7 +2,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { BaseFormComponent } from '../../../../abstract/base-form.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,7 +15,7 @@ export class SignUpComponent extends BaseFormComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     super();
   }
@@ -48,7 +48,11 @@ export class SignUpComponent extends BaseFormComponent {
 
     try {
       await this.authService.resendEmail(unverifiedEmail);
-      this.openSnackbar();
+
+      this.snackbarService.open(
+        `We've just sent you the email. Check your inbox`
+      );
+
       this.isLoading = false;
     } catch (error) {
       this.error = error as string;
@@ -59,15 +63,5 @@ export class SignUpComponent extends BaseFormComponent {
   public restartSignUp(): void {
     this.signedUp = false;
     localStorage.removeItem('unverifiedEmail');
-  }
-
-  private openSnackbar(): void {
-    this.snackbar.open(
-      `We've just sent you the email. Check your inbox`,
-      undefined,
-      {
-        duration: 3000,
-      }
-    );
   }
 }

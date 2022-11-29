@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../../../../../shared/services/snackbar.service';
 import { BaseFormComponent } from '../../../../../../abstract/base-form.component';
 import { CommentsService } from '../../services/comments.service';
 
@@ -15,7 +15,7 @@ export class NewCommentComponent extends BaseFormComponent {
   constructor(
     private fb: FormBuilder,
     private commentsService: CommentsService,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     super();
   }
@@ -34,9 +34,9 @@ export class NewCommentComponent extends BaseFormComponent {
       );
       await this.commentsService.getCommentsByTaskId(this.taskId);
     });
-    
+
     if (this.error) {
-      this.snackbar.open(this.error, undefined, { duration: 3000 });
+      this.snackbarService.open(this.error);
     }
   }
 }

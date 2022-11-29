@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { firstValueFrom } from 'rxjs';
 import { IBoardWithUsers } from '../../models/board.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-boards-list',
@@ -23,14 +23,14 @@ export class BoardsListComponent implements OnInit {
     private location: Location,
     private authUserStore: AuthUserStore,
     private matDialog: MatDialog,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {}
 
   async ngOnInit(): Promise<void> {
     try {
       await this.getBoards();
     } catch (error) {
-      this.snackbar.open(error as string, undefined, { duration: 3000 });
+      this.snackbarService.open(error as string);
     }
   }
 

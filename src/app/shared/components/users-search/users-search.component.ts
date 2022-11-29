@@ -4,7 +4,7 @@ import { debounceTime, takeUntil } from 'rxjs';
 import { BaseFormComponent } from '../../../abstract/base-form.component';
 import { IUserSearchResult } from '../../../models/user-search-result.model';
 import { UserService } from '../../../components/settings/services/user.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-users-search',
@@ -20,7 +20,7 @@ export class UsersSearchComponent extends BaseFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     super();
   }
@@ -49,7 +49,7 @@ export class UsersSearchComponent extends BaseFormComponent implements OnInit {
         skipUserIds: this.skipUserIds,
       });
     } catch (error) {
-      this.snackbar.open(error as string, undefined, { duration: 3000 });
+      this.snackbarService.open(error as string);
     }
 
     this.isLoading = false;
