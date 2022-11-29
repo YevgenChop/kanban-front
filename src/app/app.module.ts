@@ -12,9 +12,10 @@ import { MatModule } from './shared/mat.module';
 import { SettingsComponent } from './components/settings/settings.component';
 import { UsersSearchComponent } from './shared/components/users-search/users-search.component';
 import { SharedModule } from './shared/shared.module';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
-  declarations: [AppComponent, SidenavComponent, SettingsComponent],
+  declarations: [AppComponent, SidenavComponent, SettingsComponent, HeaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

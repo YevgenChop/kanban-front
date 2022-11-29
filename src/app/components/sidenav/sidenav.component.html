@@ -30,19 +30,6 @@
         New board
       </button>
     </div>
-    <div>
-      <button
-        routerLink="/settings"
-        (click)="isMobile && drawer.close()"
-        mat-button
-        [ngClass]="{ clicked: clickedButton === '/settings' }"
-      >
-        Settings
-      </button>
-    </div>
-    <div>
-      <button (click)="logout()" mat-button>Log out</button>
-    </div>
   </mat-drawer>
 
   <button class="drawer-button" mat-icon-button (click)="drawer.toggle()">
