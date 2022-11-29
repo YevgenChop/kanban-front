@@ -42,6 +42,7 @@
         cdkDrag
         cdkDragPreviewContainer="parent"
         (click)="openTaskDialog(task.id)"
+        [routerLink]="['task', task.id]"
         class="task-card"
         *ngFor="let task of mappedTasks[column]"
       >

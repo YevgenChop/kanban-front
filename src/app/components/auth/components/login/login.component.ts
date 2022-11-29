@@ -1,21 +1,29 @@
 import { FormBuilder, Validators } from '@angular/forms';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { BaseFormComponent } from '../../../../abstract/base-form.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['../../auth.component.scss'],
 })
-export class LoginComponent extends BaseFormComponent {
+export class LoginComponent extends BaseFormComponent implements OnInit {
+  private returnUrl!: string;
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     super();
+  }
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/boards';
   }
 
   public setForm(): void {
@@ -31,7 +39,7 @@ export class LoginComponent extends BaseFormComponent {
   public override async handleSubmit(): Promise<void> {
     await super.handleSubmit(async () => {
       await this.authService.login(this.componentForm.getRawValue());
-      this.router.navigateByUrl('boards');
+      this.router.navigateByUrl(this.returnUrl);
     });
   }
 }

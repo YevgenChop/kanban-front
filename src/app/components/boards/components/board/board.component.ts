@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ITask } from '../../../../models/task.model';
 import { TaskComponent } from '../../../tasks/task.component';
 import { IStatus } from '../../../../models/status.model';
@@ -8,7 +8,7 @@ import { TasksStore } from '../../../../store/tasks.store';
 import { TasksService } from '../../../tasks/services/tasks.service';
 import { StatusesStore } from '../../../../store/statuses.store';
 import { UiComponent } from '../../../../abstract/ui-component.component';
-import { takeUntil } from 'rxjs';
+import { firstValueFrom, takeUntil } from 'rxjs';
 import { IBoardWithUsers } from '../../../../models/board.model';
 import { BoardsService } from '../../services/boards.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
@@ -46,6 +46,7 @@ export class BoardComponent extends UiComponent implements OnInit {
     private tasksStore: TasksStore,
     private statusesStore: StatusesStore,
     private route: ActivatedRoute,
+    private router: Router,
     private dialog: MatDialog,
     private boardsService: BoardsService,
     private columnsService: ColumnsService,
@@ -58,7 +59,11 @@ export class BoardComponent extends UiComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.sidenavService.close();
+
     await this.getData();
+
+    this.openTaskOnInit();
+
     this.subscribeToStatuses();
     this.subscribeToTasks();
   }
@@ -77,6 +82,13 @@ export class BoardComponent extends UiComponent implements OnInit {
 
   public async getBoard(): Promise<void> {
     this.board = await this.boardsService.getBoardById(this.boardId);
+  }
+
+  private openTaskOnInit(): void {
+    const taskIdFromParams = this.route.children[0]?.snapshot.params['taskId'];
+    if (!taskIdFromParams) return;
+
+    this.openTaskDialog(taskIdFromParams);
   }
 
   private subscribeToStatuses(): void {
@@ -125,8 +137,12 @@ export class BoardComponent extends UiComponent implements OnInit {
     this.columnsService.saveColumnsOrder(this.boardId, this.columns);
   }
 
-  public openTaskDialog(taskId: string): void {
-    this.dialog.open(TaskComponent, { data: taskId });
+  public async openTaskDialog(taskId: string): Promise<void> {
+    await firstValueFrom(
+      this.dialog.open(TaskComponent, { data: taskId }).afterClosed()
+    );
+
+    this.router.navigateByUrl(`boards/${this.boardId}`);
   }
 
   private async changeTaskStatus(

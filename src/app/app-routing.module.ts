@@ -47,6 +47,11 @@ const routes: Routes = [
     component: SettingsComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: '',
+    redirectTo: '/boards',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({
