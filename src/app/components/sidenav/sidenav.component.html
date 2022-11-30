@@ -30,11 +30,20 @@
         New board
       </button>
     </div>
+    <div>
+      <button
+        routerLink="/settings"
+        (click)="isMobile && drawer.close()"
+        mat-button
+        [ngClass]="{ clicked: clickedButton === '/settings' }"
+      >
+        Settings
+      </button>
+    </div>
   </mat-drawer>
 
   <button class="drawer-button" mat-icon-button (click)="drawer.toggle()">
     <mat-icon *ngIf="!drawer.opened">arrow_forward_ios</mat-icon>
     <mat-icon *ngIf="drawer.opened">arrow_back_ios</mat-icon>
   </button>
-  
 </mat-drawer-container>

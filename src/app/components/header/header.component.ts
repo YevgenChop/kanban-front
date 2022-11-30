@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthUserStore } from '../../store/auth-user.store';
 import { AuthService } from '../auth/services/auth.service';
 
@@ -14,11 +13,9 @@ export class HeaderComponent {
   constructor(
     private authUserStore: AuthUserStore,
     private authService: AuthService,
-    private router: Router
   ) {}
 
   public async logout(): Promise<void> {
     await this.authService.logout();
-    this.router.navigateByUrl('auth/login');
   }
 }

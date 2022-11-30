@@ -1,24 +1,12 @@
 <header>
-  <div>
+  <div class="container">
     <h1>Kanban App</h1>
-    <button
-      mat-icon-button
-      *ngIf="authUser$ | async as authUser"
-      [matMenuTriggerFor]="menu"
-    >
-      {{ authUser.name | titlecase }}
-    </button>
-
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="/settings">
-        <mat-icon>settings</mat-icon>
-        <span> Settings </span>
-      </button>
-
-      <button mat-menu-item (click)="logout()">
+    <div *ngIf="authUser$ | async as authUser">
+      <p>{{ authUser.name | titlecase }}</p>
+      <button mat-button (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
       </button>
-    </mat-menu>
+    </div>
   </div>
 </header>

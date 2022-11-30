@@ -4,13 +4,24 @@ header {
   display: flex;
   align-items: center;
   color: rgb(255, 255, 255);
+  justify-content: space-between;
   cursor: default;
-  div {
+  .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 90%;
     margin: 0 auto;
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      p {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+    }
     h1 {
       margin: 0;
       padding: 10px;
@@ -18,9 +29,11 @@ header {
       font-weight: 900;
       text-transform: uppercase;
     }
-    button {
-      font-size: 1.1rem;
-      font-weight: 500;
-    }
+  }
+}
+
+@media (max-width: 425px) {
+  span {
+    display: none;
   }
 }
