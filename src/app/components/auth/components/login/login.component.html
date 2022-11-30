@@ -27,7 +27,7 @@
         <span
           class="form-error"
           *ngIf="
-            !componentForm.controls['login'].value.length &&
+            !componentForm.controls['login'].value?.length &&
             (componentForm.controls['login'].touched || form.submitted)
           "
         >

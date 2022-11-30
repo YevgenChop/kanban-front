@@ -17,8 +17,8 @@ export class HeaderComponent {
     private router: Router
   ) {}
 
-  public logout(): void {
-    this.authService.logout();
+  public async logout(): Promise<void> {
+    await this.authService.logout();
     this.router.navigateByUrl('auth/login');
   }
 }

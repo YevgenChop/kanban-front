@@ -6,7 +6,7 @@
       *ngIf="authUser$ | async as authUser"
       [matMenuTriggerFor]="menu"
     >
-      {{ authUser.name }}
+      {{ authUser.name | titlecase }}
     </button>
 
     <mat-menu #menu="matMenu">
