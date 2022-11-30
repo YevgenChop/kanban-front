@@ -5,17 +5,20 @@ import { UsersSearchComponent } from './components/users-search/users-search.com
 import { AssignedUsersComponent } from './components/assigned-users/assigned-users.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { MatModule } from './mat.module';
+import { AutofocusDirective } from '../directives/autofocus.directive';
 
 @NgModule({
   declarations: [
     UsersSearchComponent,
     ConfirmDialogComponent,
     AssignedUsersComponent,
+    AutofocusDirective,
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MatModule],
   exports: [
     UsersSearchComponent,
     AssignedUsersComponent,
+    AutofocusDirective,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

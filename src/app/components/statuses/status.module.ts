@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { AutofocusDirective } from '../../directives/autofocus.directive';
 import { MatModule } from '../../shared/mat.module';
 import { SharedModule } from '../../shared/shared.module';
 import { EditStatusComponent } from './components/edit-status/edit-status.component';
@@ -11,7 +10,6 @@ import { StatusDialogComponent } from './status-dialog.component';
   declarations: [
     StatusDialogComponent,
     EditStatusComponent,
-    AutofocusDirective,
     StatusListComponent,
     NewStatusComponent,
   ],
